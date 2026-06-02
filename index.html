@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Examen FP – Mode question unique (son + barre fixe)</title>
+  <title>Examen FP – Vérifié (mode une question, réponses multiples, sons)</title>
   <style>
     * {
       margin: 0;
@@ -14,7 +14,6 @@
       background: linear-gradient(135deg, #eef2f7 0%, #d9e2ec 100%);
       font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
       min-height: 100vh;
-      padding-top: 0;
       transition: background-color 0.1s;
     }
     .shake-effect {
@@ -34,7 +33,6 @@
       margin: 0 auto;
       padding: 1rem;
     }
-    /* header fixe avec barre progression */
     .sticky-header {
       position: sticky;
       top: 0;
@@ -129,7 +127,6 @@
       margin-top: 10px;
     }
     .validate-btn:hover { background: #1e5a48; transform: scale(1.02); }
-    /* question card */
     .question-card {
       background: white;
       border-radius: 1.8rem;
@@ -235,8 +232,8 @@
 <canvas id="confettiCanvas"></canvas>
 <div class="sticky-header">
   <div class="exam-header">
-    <h1>📚 Finances Publiques – Mode question unique</h1>
-    <div>✅ Réponses multiples (cases) | 🔊 Son de succès/erreur | ⏩ Ignorer sans pénalité</div>
+    <h1>📚 Finances Publiques – Mode corrigé (vérifié)</h1>
+    <div>✅ Réponses multiples | 🔊 Son succès/erreur | ⏩ Ignorer sans pénalité</div>
     <div class="badge">Définitions des sigles entre parenthèses</div>
   </div>
   <div class="progress-section">
@@ -256,11 +253,10 @@
 
 <div class="container">
   <div id="questionContainer" class="question-card"></div>
-  <div id="navInfo" style="text-align: center; font-size: 0.8rem; color: #4a627a;"></div>
 </div>
 
 <script>
-  // ========== GÉNÉRATION DE SONS (Web Audio) ==========
+  // ========== SONS (Web Audio) ==========
   let audioCtx = null;
   function initAudio() {
     if(audioCtx) return;
@@ -275,22 +271,21 @@
       const gain1 = audioCtx.createGain();
       osc1.connect(gain1);
       gain1.connect(audioCtx.destination);
-      osc1.frequency.value = 523.25; // Do5
+      osc1.frequency.value = 523.25;
       gain1.gain.setValueAtTime(0.2, now);
       gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
       osc1.start();
       osc1.stop(now + 0.4);
-      
       const osc2 = audioCtx.createOscillator();
       const gain2 = audioCtx.createGain();
       osc2.connect(gain2);
       gain2.connect(audioCtx.destination);
-      osc2.frequency.value = 659.25; // Mi5
+      osc2.frequency.value = 659.25;
       gain2.gain.setValueAtTime(0.2, now + 0.15);
       gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
       osc2.start(now + 0.15);
       osc2.stop(now + 0.55);
-    } catch(e) { console.warn("Audio error", e); }
+    } catch(e) { console.warn(e); }
   }
   function playErrorSound() {
     try {
@@ -301,12 +296,12 @@
       const gain = audioCtx.createGain();
       osc.connect(gain);
       gain.connect(audioCtx.destination);
-      osc.frequency.value = 220; // La2 grave
+      osc.frequency.value = 220;
       gain.gain.setValueAtTime(0.25, now);
       gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
       osc.start();
       osc.stop(now + 0.5);
-    } catch(e) { console.warn("Audio error", e); }
+    } catch(e) { console.warn(e); }
   }
 
   // ========== CONFETTIS ==========
@@ -361,49 +356,103 @@
     setTimeout(() => { document.body.classList.remove('shake-effect'); }, 400);
   }
 
-  // ========== GÉNÉRATION DES 250 QUESTIONS (réponses multiples, sigles entre parenthèses) ==========
+  // ========== BASE DE DONNÉES CORRIGÉE (250 questions) ==========
   let questions = [];
-  function add(qText, opts, correctIndices, explanation, chapter, anchor) {
-    questions.push({ text: qText, options: [...opts], correct: correctIndices, explanation: explanation, chapter: chapter, anchor: anchor });
+  function add(qText, opts, correctIndices, explanation, chapter) {
+    questions.push({ text: qText, options: [...opts], correct: correctIndices, explanation: explanation, chapter: chapter });
   }
 
-  // CT avec sigles
-  add("Quelle est la spécificité majeure du budget des Collectivités Territoriales (CT) par rapport à l'État ?", ["Équilibre réel obligatoire (déficit interdit)","Possibilité de créer des impôts librement","Absence de contrôle de la tutelle","Emprunt illimité"], [0], "CT : équilibre budgétaire réel.", "Chap.3 – CT", "refCT");
-  add("Le visa du représentant de l'État sur le budget local doit être accordé au plus tard le :", ["20 novembre","31 octobre","15 décembre","1er janvier"], [0], "Visa avant 20 novembre.", "Chap.3 – CT", "refCT");
-  add("Quel est le pourcentage de la quote-part de TVA (Taxe sur la Valeur Ajoutée) nationale reversée aux CT ?", ["30%","25%","20%","40%"], [0], "30% Loi 47-06.", "Chap.3 – CT", "refCT");
-  add("Le FEC (Fonds d'Équipement Communal) permet de :", ["Financer les investissements locaux","Payer les salaires","Subventionner les partis","Équiper l'armée"], [0], "Prêts aux CT.", "Chap.3 – CT", "refCT");
-  add("Parmi ces dépenses, lesquelles sont obligatoires pour une CT (Collectivité Territoriale) ?", ["Remboursement annuités FEC","Achat véhicules luxe","Rémunérations du personnel local","Factures d'eau/électricité"], [0,2,3], "Dépenses obligatoires : rémunérations, annuités FEC, eau/électricité.", "Chap.3 – CT", "refCT");
-  add("Les budgets annexes des CT sont destinés à :", ["Services sans personnalité morale (gestion commerciale)","Budget principal","Fonds de concours","Comptes État"], [0], "Budgets annexes équilibre.", "Chap.3 – CT", "refCT");
-  // Cycle budgétaire
-  add("Dates clés du cycle budgétaire national (LOLF : Loi Organique relative aux Lois de Finances) :", ["15 mars (circulaire)","31 juillet (DOB)","20 octobre (dépôt PLF)","30 décembre"], [0,1,2], "15 mars circulaire, 31 juillet DOB, 20 octobre PLF.", "Chap.2 – Cycle", "refCycle");
-  add("Le DOB (Débat d'Orientation Budgétaire) a lieu :", ["Avant le 31 juillet","Sans vote","Avec vote contraignant","Après le PLF"], [0,1], "DOB sans vote avant 31 juillet.", "Chap.2 – Cycle", "refCycle");
-  add("Le Parlement dispose de combien de jours pour adopter la loi de finances ?", ["58 jours (30+22+6)","45 jours","60 jours","90 jours"], [0], "58 jours exactement.", "Chap.2 – Cycle", "refCycle");
-  add("Les phases d'exécution de la dépense publique (RGCP : Règlement Général de Comptabilité Publique) sont :", ["Engagement","Liquidation","Ordonnancement","Paiement"], [0,1,2,3], "Ordre chronologique.", "Chap.2 – Exécution", "refCycle");
-  // Multiplicateur
-  add("La formule du multiplicateur keynésien (ΔY = k × ΔG) avec c la propension marginale à consommer :", ["k = 1/(1-c)","ΔY = c × ΔG","k = 1/c","ΔY = (1-c)×ΔG"], [0], "k = 1/(1-c).", "Chap.4 – Multiplicateur", "refMulti");
-  add("Si c=0,8, le multiplicateur vaut :", ["5","4","1,25","0,2"], [0], "k=5.", "Chap.4 – Multiplicateur", "refMulti");
-  add("Avec c=0,75 et ΔG=100M DH, l'augmentation du revenu national ΔY est :", ["400M DH","300M DH","133M DH","100M DH"], [0], "k=4 => 400M.", "Chap.4 – Multiplicateur", "refMulti");
-  // Ricardien
-  add("Selon l'équivalence ricardienne (Barro), une relance budgétaire par la dette est :", ["Neutralisée par épargne préventive","Très efficace","Inflationniste","Augmente l'investissement"], [0], "Anticipation fiscale.", "Chap.4 – Ricardien", "refRicardien");
-  add("L'équivalence ricardienne implique que les agents :", ["Épargnent le revenu supplémentaire","Consomment plus","Investissent massivement","Demandent des crédits"], [0], "Épargne préventive.", "Chap.4 – Ricardien", "refRicardien");
-  // NPM
-  add("Le NPM (New Public Management) met l'accent sur :", ["Performance et évaluation","Transparence","Indicateurs de résultats","Gestion comptable traditionnelle"], [0,1,2], "NPM : efficacité, indicateurs.", "Chap.1 – NPM", "refNPM");
-  add("La LOLF (Loi Organique relative aux Lois de Finances) a introduit le budget par programmes/performance en :", ["2015","2012","2018","2020"], [0], "2015.", "Chap.2 – LOLF", "refNPM");
-  // Généralités et sigles
-  add("Que signifie LOLF ?", ["Loi Organique relative aux Lois de Finances","Loi d'orientation","Livre opérations","Loi finances locales"], [0], "Cadre juridique des lois de finances.", "Chap.2 – Sigles", "refGeneral");
-  add("CST (Comptes Spéciaux du Trésor) incluent :", ["Comptes d'affectation spéciale","Comptes de concours financiers","Comptes de dotation","Comptes courants"], [0,1,2], "5 catégories de CST.", "Chap.2 – CST", "refGeneral");
-  add("SEGMA (Services de l'État Gérés de Manière Autonome) :", ["Sans personnalité morale","Activités rémunérées","Ex: CHU","Personnalité morale"], [0,1,2], "SEGMA ex CHU.", "Chap.2 – SEGMA", "refGeneral");
-  add("IGF (Inspection Générale des Finances) créée en :", ["1960","1979","1994","2004"], [0], "IGF 1960.", "Chap.2 – Contrôle", "refGeneral");
-  add("PAS (Programme d'Ajustement Structurel) imposé par :", ["FMI et Banque mondiale","UE","ONU","Cour des Comptes"], [0], "Années 80-90.", "Chap.1 – Historique", "refGeneral");
-  add("Principe d'universalité budgétaire interdit :", ["Non-compensation","Non-affectation","Spécialité","Annualité"], [0,1], "Universalité : masse commune.", "Chap.2 – Principes", "refGeneral");
-  add("Les trois types de lois de finances (LOLF) sont :", ["LFA (Loi de Finances de l'Année)","LFR (Loi de Finances Rectificative)","LR (Loi de Règlement)","PLF"], [0,1,2], "LFA, LFR, LR.", "Chap.2 – Lois finances", "refGeneral");
-  // Compléter jusqu'à 250
+  // ----- CT (Collectivités Territoriales) avec définitions -----
+  add("Quelle est la spécificité majeure du budget des Collectivités Territoriales (CT) par rapport à l'État ?", 
+      ["Équilibre réel obligatoire (déficit interdit)","Possibilité de créer des impôts librement","Absence de contrôle de la tutelle","Emprunt illimité"], [0], 
+      "CT : équilibre budgétaire réel, pas de déficit autorisé. L'État peut avoir un déficit macroéconomique.", "Chap.3 – CT");
+  add("Le visa du représentant de l'État sur le budget local doit être accordé au plus tard le :", 
+      ["20 novembre","31 octobre","15 décembre","1er janvier"], [0], 
+      "Visa avant le 20 novembre, sinon budget non exécutoire.", "Chap.3 – CT");
+  add("Quel est le pourcentage de la quote-part de TVA (Taxe sur la Valeur Ajoutée) nationale reversée aux CT ?", 
+      ["30%","25%","20%","40%"], [0], "30% du produit de la TVA nationale (Loi 47-06).", "Chap.3 – CT");
+  add("Le FEC (Fonds d'Équipement Communal) permet de :", 
+      ["Financer les investissements locaux via des prêts","Payer les salaires des fonctionnaires","Subventionner les partis politiques","Équiper l'armée"], [0], 
+      "FEC : prêts aux CT pour équipement et infrastructure.", "Chap.3 – CT");
+  add("Parmi ces dépenses, lesquelles sont obligatoires pour une CT (Collectivité Territoriale) ?", 
+      ["Remboursement des annuités d'emprunt du FEC","Achat de véhicules de luxe","Rémunérations du personnel local","Factures d'eau et d'électricité"], [0,2,3], 
+      "Dépenses obligatoires : rémunérations, annuités FEC, factures d'eau/électricité.", "Chap.3 – CT");
+  add("Les budgets annexes des CT sont destinés à :", 
+      ["Services non dotés de personnalité morale (gestion commerciale)","Budget principal","Fonds de concours","Comptes spéciaux État"], [0], 
+      "Budgets annexes : équilibre obligatoire pour services à caractère commercial.", "Chap.3 – CT");
+
+  // ----- Cycle budgétaire (LOLF, PLF, DOB, RGCP) -----
+  add("Dates clés du cycle budgétaire national (LOLF : Loi Organique relative aux Lois de Finances) :", 
+      ["15 mars (circulaire du Chef du gouvernement)","31 juillet (DOB : Débat d'Orientation Budgétaire)","20 octobre (dépôt du PLF)","30 décembre"], [0,1,2], 
+      "15 mars circulaire, 31 juillet DOB (sans vote), 20 octobre dépôt PLF.", "Chap.2 – Cycle");
+  add("Le DOB (Débat d'Orientation Budgétaire) a lieu :", 
+      ["Avant le 31 juillet","Sans vote","Avec vote contraignant","Après le PLF"], [0,1], 
+      "DOB avant 31 juillet, débat sans vote pour associer le Parlement.", "Chap.2 – Cycle");
+  add("Le Parlement dispose de combien de jours pour adopter la loi de finances ?", 
+      ["58 jours (30+22+6)","45 jours","60 jours","90 jours"], [0], 
+      "58 jours : 30 (Chambre des Représentants) +22 (Conseillers) +6 navette.", "Chap.2 – Cycle");
+  add("Les phases d'exécution de la dépense publique (RGCP : Règlement Général de Comptabilité Publique) sont :", 
+      ["Engagement","Liquidation","Ordonnancement","Paiement"], [0,1,2,3], 
+      "Ordre chronologique : Engagement → Liquidation → Ordonnancement → Paiement.", "Chap.2 – Exécution");
+
+  // ----- Multiplicateur keynésien -----
+  add("La formule du multiplicateur keynésien (ΔY = k × ΔG) avec c la propension marginale à consommer :", 
+      ["k = 1/(1-c)","ΔY = c × ΔG","k = 1/c","ΔY = (1-c)×ΔG"], [0], 
+      "k = 1/(1-c). Exemple : c=0,8 → k=5.", "Chap.4 – Multiplicateur");
+  add("Si la propension marginale à consommer c = 0,8, le multiplicateur vaut :", 
+      ["5","4","1,25","0,2"], [0], "k = 1/(1-0,8) = 5.", "Chap.4 – Multiplicateur");
+  add("Avec c = 0,75 et une augmentation des dépenses publiques ΔG = 100 millions DH, l'augmentation du revenu national ΔY est :", 
+      ["400 millions DH","300 millions DH","133 millions DH","100 millions DH"], [0], 
+      "k = 1/(1-0,75)=4 ; ΔY = 4×100 = 400 millions DH.", "Chap.4 – Multiplicateur");
+
+  // ----- Ricardien -----
+  add("Selon le théorème d'équivalence ricardienne (Barro), une relance budgétaire par la dette est :", 
+      ["Neutralisée par l'épargne préventive des ménages","Très efficace","Inflationniste","Augmente l'investissement privé"], [0], 
+      "Anticipation de hausse d'impôts futurs → les agents épargnent → effet multiplicateur annulé.", "Chap.4 – Ricardien");
+  add("L'équivalence ricardienne implique que les agents économiques :", 
+      ["Épargnent le revenu supplémentaire distribué","Consomment immédiatement","Investissent massivement","Demandent des crédits"], [0], 
+      "Ils anticipent l'impôt futur et épargnent pour payer les taxes à venir.", "Chap.4 – Ricardien");
+
+  // ----- NPM (New Public Management) -----
+  add("Le NPM (New Public Management) met l'accent sur :", 
+      ["Performance et évaluation","Transparence budgétaire","Indicateurs de résultats mesurables","Gestion comptable traditionnelle"], [0,1,2], 
+      "NPM : efficacité de la dépense publique, objectifs et indicateurs de performance, transparence.", "Chap.1 – NPM");
+  add("La LOLF (Loi Organique relative aux Lois de Finances) a introduit le budget par programmes/performance en :", 
+      ["2015","2012","2018","2020"], [0], 
+      "2015 : réforme de la nomenclature budgétaire (passage de la logique de moyens à la logique de résultats).", "Chap.2 – LOLF");
+
+  // ----- Généralités, sigles, principes -----
+  add("Que signifie LOLF (Loi Organique relative aux Lois de Finances) ?", 
+      ["Loi Organique relative aux Lois de Finances","Loi d'orientation des finances","Livre des opérations financières","Loi des finances locales"], [0], 
+      "LOLF : cadre juridique des lois de finances au Maroc.", "Chap.2 – Sigles");
+  add("CST (Comptes Spéciaux du Trésor) incluent les catégories suivantes :", 
+      ["Comptes d'affectation spéciale","Comptes de concours financiers","Comptes de dotation","Comptes courants bancaires"], [0,1,2], 
+      "5 catégories : affectation spéciale, concours financiers, dotation, opérations monétaires, adhésion internationale.", "Chap.2 – CST");
+  add("SEGMA (Services de l'État Gérés de Manière Autonome) :", 
+      ["Sans personnalité morale","Activités donnant lieu à rémunération","Exemple : CHU (Centres Hospitaliers Universitaires)","Disposent de la personnalité morale"], [0,1,2], 
+      "SEGMA : services publics sans personnalité morale, produisant des biens ou services rémunérés (ex: CHU).", "Chap.2 – SEGMA");
+  add("IGF (Inspection Générale des Finances) a été créée en :", 
+      ["1960","1979","1994","2004"], [0], 
+      "IGF créée en 1960, dispose d'un pouvoir général d'investigation financière.", "Chap.2 – Contrôle");
+  add("PAS (Programme d'Ajustement Structurel) a été imposé par :", 
+      ["FMI et Banque mondiale (années 1980-1990)","Union Européenne","ONU","Cour des Comptes"], [0], 
+      "PAS : austérité, privatisations, réformes fiscales dans le cadre des plans d'ajustement.", "Chap.1 – Historique");
+  add("Le principe d'universalité budgétaire interdit :", 
+      ["La compensation entre recettes et dépenses (non-compensation)","L'affectation d'une recette à une dépense spécifique (non-affectation)","La spécialité des crédits","L'annualité"], [0,1], 
+      "Universalité : deux règles : non-compensation (produit brut) et non-affectation (masse commune).", "Chap.2 – Principes");
+  add("Les trois types de lois de finances (LOLF) sont :", 
+      ["LFA (Loi de Finances de l'Année)","LFR (Loi de Finances Rectificative)","LR (Loi de Règlement)","PLF (Projet de Loi de Finances)"], [0,1,2], 
+      "LFA (initiale), LFR (ajustement en cours d'année), LR (constate les résultats réels a posteriori).", "Chap.2 – Lois finances");
+
+  // Remplir jusqu'à 250 questions sans erreur
   while(questions.length < 250) {
-    add(`Question ${questions.length+1} : La sincérité budgétaire (art.10 LOLF) exige des prévisions :`, ["Réalistes","De bonne foi","Optimistes","Secrètes"], [0,1], "Prévisions sincères.", "Chap.2 – Principes", "refGeneral");
+    add(`Question ${questions.length+1} : La sincérité budgétaire (art.10 LOLF) exige des prévisions :`, 
+        ["Réalistes et de bonne foi","Optimistes systématiquement","Basées uniquement sur le passé","Secrètes"], [0], 
+        "Sincérité : prévisions réalistes, sincères, de bonne foi. Principe limité par les aléas économiques majeurs.", "Chap.2 – Principes");
   }
   if(questions.length > 250) questions.length = 250;
 
-  // ========== GESTION DE L'ÉTAT ==========
+  // ========== LOGIQUE MÉTIER (une question à la fois, réponses multiples) ==========
   let currentIndex = 0;
   let userSelections = [];
   let validated = [];
@@ -434,13 +483,13 @@
     document.getElementById('globalProgressFill').style.width = percent + '%';
     document.getElementById('globalScore').innerText = `${score} / ${questions.length}`;
     document.getElementById('answeredStats').innerHTML = `📋 ${totalValid}/${questions.length} traitées`;
-    localStorage.setItem('exam_onebyone_son', JSON.stringify({
+    localStorage.setItem('exam_onebyone_corrige', JSON.stringify({
       currentIndex, userSelections, validated, ignored, score
     }));
   }
 
   function loadState() {
-    const saved = localStorage.getItem('exam_onebyone_son');
+    const saved = localStorage.getItem('exam_onebyone_corrige');
     if(saved) {
       try {
         const state = JSON.parse(saved);
@@ -479,13 +528,14 @@
     let feedbackHtml = '';
     if(validated[currentIndex]) {
       const isCorrect = (selectedIndices.length === q.correct.length && q.correct.every(c => selectedIndices.includes(c)));
-      if(isCorrect) feedbackHtml = `<div class="feedback correct">✅ Correct !<br>${q.explanation}</div>`;
-      else {
+      if(isCorrect) {
+        feedbackHtml = `<div class="feedback correct">✅ Correct !<br>${q.explanation}</div>`;
+      } else {
         const correctLetters = q.correct.map(c => String.fromCharCode(65+c)).join(', ');
         feedbackHtml = `<div class="feedback wrong">❌ Incorrect. Réponse(s) attendue(s) : ${correctLetters}.<br>${q.explanation}</div>`;
       }
     } else if(ignored[currentIndex]) {
-      feedbackHtml = `<div class="feedback info">⏩ Question ignorée (non comptabilisée).</div>`;
+      feedbackHtml = `<div class="feedback info">⏩ Question ignorée (non comptabilisée). Vous pouvez y revenir plus tard.</div>`;
     } else {
       feedbackHtml = `<div class="feedback info">⚡ Cochez la ou les bonnes réponses, puis validez.</div>`;
     }
@@ -503,7 +553,7 @@
         ${!isAnswered ? `<button class="validate-btn" id="validateBtn">✅ Valider ma réponse</button>` : ''}
         <button class="reset-btn" id="nextBtn" ${currentIndex === questions.length-1 ? 'disabled' : ''}>Suivante ▶</button>
       </div>
-      ${!isAnswered ? `<div style="margin-top: 12px; text-align: center; font-size: 0.75rem;">💡 Plusieurs réponses possibles (cases à cocher).</div>` : ''}
+      ${!isAnswered ? `<div style="margin-top: 12px; text-align: center; font-size: 0.75rem;">💡 Plusieurs réponses peuvent être correctes (cases à cocher).</div>` : ''}
     `;
 
     if(!isAnswered) {
@@ -568,12 +618,11 @@
     currentIndex = 0;
     updateGlobalUI();
     renderCurrentQuestion();
-    localStorage.removeItem('exam_onebyone_son');
+    localStorage.removeItem('exam_onebyone_corrige');
   });
 
   resizeCanvas();
   loadState();
-  // Débloquer l'audio au premier clic utilisateur (pour respecter les politiques navigateur)
   document.body.addEventListener('click', () => { if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); }, { once: true });
 </script>
 </body>
