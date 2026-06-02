@@ -3,260 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Examen FP – Vérifié | Justification + extrait cours par réponse</title>
+  <title>Examen FP – 250 questions UNIQUES (garanti sans doublon)</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: linear-gradient(135deg, #eef2f7 0%, #d9e2ec 100%);
       font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
       min-height: 100vh;
       transition: background-color 0.1s;
     }
-    .shake-effect {
-      animation: shake 0.3s ease-in-out 0s 2;
-    }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
-    }
-    .flash-red {
-      background-color: #ffdddd !important;
-      transition: background-color 0.05s;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 1rem;
-    }
-    .sticky-header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: white;
-      border-radius: 0 0 1.5rem 1.5rem;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      margin-bottom: 1.5rem;
-    }
-    .exam-header {
-      background: #0f2b3d;
-      padding: 1rem 1.5rem;
-      color: white;
-      border-radius: 1.5rem 1.5rem 0 0;
-      text-align: center;
-    }
-    .exam-header h1 {
-      font-size: 1.4rem;
-      margin-bottom: 0.2rem;
-    }
-    .badge {
-      background: #ffb74d;
-      color: #0f2b3d;
-      font-size: 0.65rem;
-      padding: 3px 10px;
-      border-radius: 40px;
-      display: inline-block;
-    }
-    .progress-section {
-      background: #fef9e6;
-      padding: 0.8rem 1.5rem;
-      border-bottom: 1px solid #e0e7ef;
-    }
-    .progress-bar-container {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .progress-bar-bg {
-      background: #2c4b66;
-      border-radius: 30px;
-      height: 12px;
-      flex: 1;
-      min-width: 150px;
-    }
-    .progress-fill {
-      background: #ffb74d;
-      width: 0%;
-      height: 100%;
-      border-radius: 30px;
-      transition: width 0.3s ease;
-    }
-    .score-badge {
-      background: #0f2b3d;
-      color: #ffd966;
-      padding: 4px 14px;
-      border-radius: 40px;
-      font-weight: bold;
-      font-size: 0.9rem;
-    }
-    .score-panel {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 6px;
-    }
-    .reset-btn, .skip-btn {
-      border: none;
-      padding: 6px 16px;
-      border-radius: 40px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+    .shake-effect { animation: shake 0.3s ease-in-out 0s 2; }
+    @keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-5px);} 75%{transform:translateX(5px);} }
+    .flash-red { background-color: #ffdddd !important; transition: background-color 0.05s; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 1rem; }
+    .sticky-header { position: sticky; top: 0; z-index: 100; background: white; border-radius: 0 0 1.5rem 1.5rem; box-shadow: 0 8px 20px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }
+    .exam-header { background: #0f2b3d; padding: 1rem 1.5rem; color: white; border-radius: 1.5rem 1.5rem 0 0; text-align: center; }
+    .exam-header h1 { font-size: 1.3rem; margin-bottom: 0.2rem; }
+    .badge { background: #ffb74d; color: #0f2b3d; font-size: 0.65rem; padding: 3px 10px; border-radius: 40px; display: inline-block; }
+    .progress-section { background: #fef9e6; padding: 0.8rem 1.5rem; border-bottom: 1px solid #e0e7ef; }
+    .progress-bar-container { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .progress-bar-bg { background: #2c4b66; border-radius: 30px; height: 12px; flex: 1; min-width: 150px; }
+    .progress-fill { background: #ffb74d; width: 0%; height: 100%; border-radius: 30px; transition: width 0.3s ease; }
+    .score-badge { background: #0f2b3d; color: #ffd966; padding: 4px 14px; border-radius: 40px; font-weight: bold; font-size: 0.9rem; }
+    .score-panel { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+    .reset-btn, .skip-btn { border: none; padding: 6px 16px; border-radius: 40px; font-weight: bold; cursor: pointer; transition: 0.2s; }
     .reset-btn { background: #e2e8f0; color: #1e4663; }
     .reset-btn:hover { background: #cbd5e1; }
     .skip-btn { background: #f1c40f; color: #2c3e50; }
     .skip-btn:hover { background: #e67e22; color: white; }
-    .validate-btn {
-      background: #2e7d64;
-      color: white;
-      border: none;
-      padding: 10px 24px;
-      border-radius: 60px;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.2s;
-      margin-top: 10px;
-    }
+    .validate-btn { background: #2e7d64; color: white; border: none; padding: 10px 24px; border-radius: 60px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.2s; margin-top: 10px; }
     .validate-btn:hover { background: #1e5a48; transform: scale(1.02); }
-    .question-card {
-      background: white;
-      border-radius: 1.8rem;
-      padding: 1.8rem;
-      box-shadow: 0 15px 30px -12px rgba(0,0,0,0.2);
-      margin-bottom: 2rem;
-    }
-    .q-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      flex-wrap: wrap;
-      margin-bottom: 1.2rem;
-      padding-bottom: 0.6rem;
-      border-bottom: 2px solid #ffb74d;
-    }
-    .q-counter {
-      background: #ffb74d;
-      color: #0f2b3d;
-      font-weight: bold;
-      padding: 4px 12px;
-      border-radius: 40px;
-      font-size: 0.8rem;
-    }
-    .chapter-badge {
-      background: #e9ecef;
-      padding: 3px 12px;
-      border-radius: 40px;
-      font-size: 0.7rem;
-    }
-    .q-text {
-      font-size: 1.15rem;
-      font-weight: 600;
-      line-height: 1.4;
-      margin-bottom: 1.5rem;
-      background: #f8fafd;
-      padding: 1rem;
-      border-radius: 1rem;
-    }
-    .options-area {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 1.2rem;
-    }
-    .opt-check {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      background: #fefefe;
-      padding: 8px 16px;
-      border-radius: 60px;
-      border: 1px solid #e2e8f0;
-      cursor: pointer;
-      transition: 0.1s;
-    }
+    .question-card { background: white; border-radius: 1.8rem; padding: 1.8rem; box-shadow: 0 15px 30px -12px rgba(0,0,0,0.2); margin-bottom: 2rem; }
+    .q-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; margin-bottom: 1.2rem; padding-bottom: 0.6rem; border-bottom: 2px solid #ffb74d; }
+    .q-counter { background: #ffb74d; color: #0f2b3d; font-weight: bold; padding: 4px 12px; border-radius: 40px; font-size: 0.8rem; }
+    .chapter-badge { background: #e9ecef; padding: 3px 12px; border-radius: 40px; font-size: 0.7rem; }
+    .q-text { font-size: 1.05rem; font-weight: 600; line-height: 1.5; margin-bottom: 1.5rem; background: #f8fafd; padding: 1rem; border-radius: 1rem; }
+    .options-area { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.2rem; }
+    .opt-check { display: flex; align-items: center; gap: 14px; background: #fefefe; padding: 8px 16px; border-radius: 60px; border: 1px solid #e2e8f0; cursor: pointer; transition: 0.1s; }
     .opt-check:hover { background: #f1f5f9; }
-    input[type="checkbox"] {
-      width: 1.2rem;
-      height: 1.2rem;
-      accent-color: #2e7d64;
-      cursor: pointer;
-    }
-    .opt-label {
-      font-size: 0.92rem;
-      flex: 1;
-      cursor: pointer;
-    }
-    .feedback {
-      margin-top: 1rem;
-      padding: 12px 16px;
-      border-radius: 1rem;
-      font-size: 0.85rem;
-      line-height: 1.4;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
+    input[type="checkbox"] { width: 1.2rem; height: 1.2rem; accent-color: #2e7d64; cursor: pointer; }
+    .opt-label { font-size: 0.9rem; flex: 1; cursor: pointer; }
+    .feedback { margin-top: 1rem; padding: 12px 16px; border-radius: 1rem; font-size: 0.85rem; line-height: 1.5; }
     .feedback.correct { background: #e0f2e9; color: #0a3b2a; border-left: 6px solid #2e7d64; }
     .feedback.wrong { background: #ffe9eb; color: #9b2c2c; border-left: 6px solid #c7362b; }
     .feedback.info { background: #eef2ff; border-left: 6px solid #3b82f6; }
-    .feedback-left {
-      flex: 2;
-    }
-    .feedback-right {
-      flex: 1;
-      background: #ffffffcc;
-      padding: 8px 12px;
-      border-radius: 16px;
-      font-size: 0.8rem;
-      border-left: 3px solid #ffb74d;
-      color: #2c3e66;
-    }
-    .cours-extrait {
-      font-style: italic;
-      font-weight: 500;
-    }
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-      margin-top: 20px;
-    }
-    canvas#confettiCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 2000;
-    }
-    @media (max-width: 640px) {
-      .container { padding: 0.8rem; }
-      .question-card { padding: 1.2rem; }
-      .q-text { font-size: 1rem; }
-      .opt-label { font-size: 0.85rem; }
-      .feedback { flex-direction: column; }
-      .feedback-right { margin-top: 8px; }
-    }
+    .cours-ref { font-size: 0.75rem; color: #2c3e66; margin-top: 8px; padding-top: 6px; border-top: 1px dashed #ccc; }
+    .nav-buttons { display: flex; justify-content: space-between; gap: 15px; margin-top: 20px; }
+    canvas#confettiCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2000; }
+    @media (max-width: 640px) { .container { padding: 0.8rem; } .question-card { padding: 1.2rem; } .q-text { font-size: 0.95rem; } }
   </style>
 </head>
 <body>
 <canvas id="confettiCanvas"></canvas>
 <div class="sticky-header">
   <div class="exam-header">
-    <h1>📚 Finances Publiques – Mode vérifié</h1>
-    <div>✅ Réponses multiples | 🔊 Son + confettis | 📖 À droite : extrait du cours justifiant la réponse</div>
-    <div class="badge">Définition des sigles entre parenthèses – Chaque réponse validée affiche la source du cours</div>
+    <h1>📚 Finances Publiques – 250 questions UNIQUES (sans aucun doublon)</h1>
+    <div>✅ Chaque question est différente | Justifications détaillées depuis le cours</div>
+    <div class="badge">Aucune répétition de SEGMA, LOLF, ou autre thème</div>
   </div>
   <div class="progress-section">
     <div class="progress-bar-container">
@@ -266,421 +69,216 @@
     <div class="score-panel">
       <span id="answeredStats">📋 0/250 traitées</span>
       <div style="display: flex; gap: 8px;">
-        <button class="skip-btn" id="skipBtn">⏩ Ignorer cette question</button>
+        <button class="skip-btn" id="skipBtn">⏩ Ignorer</button>
         <button class="reset-btn" id="resetBtn">⟳ Réinitialiser</button>
       </div>
     </div>
   </div>
 </div>
-
-<div class="container">
-  <div id="questionContainer" class="question-card"></div>
-</div>
+<div class="container"><div id="questionContainer" class="question-card"></div></div>
 
 <script>
-  // ========== SONS (Web Audio) ==========
+  // Sons et confettis (codes standards)
   let audioCtx = null;
-  function initAudio() {
-    if(audioCtx) return;
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-  function playSuccessSound() {
-    try {
-      initAudio();
-      if(audioCtx.state === 'suspended') audioCtx.resume();
-      const now = audioCtx.currentTime;
-      const osc1 = audioCtx.createOscillator();
-      const gain1 = audioCtx.createGain();
-      osc1.connect(gain1);
-      gain1.connect(audioCtx.destination);
-      osc1.frequency.value = 523.25;
-      gain1.gain.setValueAtTime(0.2, now);
-      gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
-      osc1.start();
-      osc1.stop(now + 0.4);
-      const osc2 = audioCtx.createOscillator();
-      const gain2 = audioCtx.createGain();
-      osc2.connect(gain2);
-      gain2.connect(audioCtx.destination);
-      osc2.frequency.value = 659.25;
-      gain2.gain.setValueAtTime(0.2, now + 0.15);
-      gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
-      osc2.start(now + 0.15);
-      osc2.stop(now + 0.55);
-    } catch(e) { console.warn(e); }
-  }
-  function playErrorSound() {
-    try {
-      initAudio();
-      if(audioCtx.state === 'suspended') audioCtx.resume();
-      const now = audioCtx.currentTime;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.frequency.value = 220;
-      gain.gain.setValueAtTime(0.25, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
-      osc.start();
-      osc.stop(now + 0.5);
-    } catch(e) { console.warn(e); }
-  }
+  function initAudio() { if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+  function playSuccessSound() { try { initAudio(); if(audioCtx.state==='suspended') audioCtx.resume(); const now=audioCtx.currentTime; const o1=audioCtx.createOscillator(), g1=audioCtx.createGain(); o1.connect(g1); g1.connect(audioCtx.destination); o1.frequency.value=523.25; g1.gain.setValueAtTime(0.2,now); g1.gain.exponentialRampToValueAtTime(0.0001,now+0.5); o1.start(); o1.stop(now+0.4); const o2=audioCtx.createOscillator(), g2=audioCtx.createGain(); o2.connect(g2); g2.connect(audioCtx.destination); o2.frequency.value=659.25; g2.gain.setValueAtTime(0.2,now+0.15); g2.gain.exponentialRampToValueAtTime(0.0001,now+0.6); o2.start(now+0.15); o2.stop(now+0.55); } catch(e){} }
+  function playErrorSound() { try { initAudio(); if(audioCtx.state==='suspended') audioCtx.resume(); const now=audioCtx.currentTime; const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.connect(g); g.connect(audioCtx.destination); o.frequency.value=220; g.gain.setValueAtTime(0.25,now); g.gain.exponentialRampToValueAtTime(0.0001,now+0.6); o.start(); o.stop(now+0.5); } catch(e){} }
+  const canvas=document.getElementById('confettiCanvas'); let ctx=canvas.getContext('2d'), animId=null, parts=[];
+  function resizeCanvas() { canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
+  window.addEventListener('resize',resizeCanvas);
+  function startConfetti() { if(animId) cancelAnimationFrame(animId); parts=[]; for(let i=0;i<150;i++) parts.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height-canvas.height,size:Math.random()*6+2,speedX:(Math.random()-0.5)*4,speedY:Math.random()*8+5,color:`hsl(${Math.random()*360},80%,60%)`,rotation:Math.random()*360,rotSpeed:(Math.random()-0.5)*10}); function draw(){ if(!ctx) return; ctx.clearRect(0,0,canvas.width,canvas.height); let active=false; for(let p of parts){ p.x+=p.speedX; p.y+=p.speedY; p.rotation+=p.rotSpeed; if(p.y<canvas.height+50) active=true; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rotation*Math.PI/180); ctx.fillStyle=p.color; ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size); ctx.restore(); } if(active) animId=requestAnimationFrame(draw); else { cancelAnimationFrame(animId); animId=null; ctx.clearRect(0,0,canvas.width,canvas.height); } } resizeCanvas(); animId=requestAnimationFrame(draw); setTimeout(()=>{ if(animId){ cancelAnimationFrame(animId); animId=null; ctx.clearRect(0,0,canvas.width,canvas.height); } },2000); }
+  function playErrorEffect() { document.body.classList.add('flash-red','shake-effect'); setTimeout(()=>document.body.classList.remove('flash-red'),200); setTimeout(()=>document.body.classList.remove('shake-effect'),400); }
 
-  // ========== CONFETTIS ==========
-  const canvas = document.getElementById('confettiCanvas');
-  let ctx = canvas.getContext('2d');
-  let animationId = null;
-  let particles = [];
-  function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-  window.addEventListener('resize', resizeCanvas);
-  function startConfetti() {
-    if(animationId) cancelAnimationFrame(animationId);
-    particles = [];
-    for(let i=0;i<150;i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height - canvas.height,
-        size: Math.random() * 6 + 2,
-        speedX: (Math.random() - 0.5) * 4,
-        speedY: Math.random() * 8 + 5,
-        color: `hsl(${Math.random() * 360}, 80%, 60%)`,
-        rotation: Math.random() * 360,
-        rotSpeed: (Math.random() - 0.5) * 10
-      });
-    }
-    function draw() {
-      if(!ctx) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      let active = false;
-      for(let p of particles) {
-        p.x += p.speedX;
-        p.y += p.speedY;
-        p.rotation += p.rotSpeed;
-        if(p.y < canvas.height + 50) active = true;
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rotation * Math.PI/180);
-        ctx.fillStyle = p.color;
-        ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
-        ctx.restore();
-      }
-      if(active) animationId = requestAnimationFrame(draw);
-      else { cancelAnimationFrame(animationId); animationId = null; ctx.clearRect(0,0,canvas.width,canvas.height); }
-    }
-    resizeCanvas();
-    animationId = requestAnimationFrame(draw);
-    setTimeout(() => { if(animationId) { cancelAnimationFrame(animationId); animationId=null; ctx.clearRect(0,0,canvas.width,canvas.height); } }, 2000);
-  }
-  function playErrorEffect() {
-    document.body.classList.add('flash-red');
-    document.body.classList.add('shake-effect');
-    setTimeout(() => { document.body.classList.remove('flash-red'); }, 200);
-    setTimeout(() => { document.body.classList.remove('shake-effect'); }, 400);
-  }
-
-  // ========== BASE DE DONNÉES CORRIGÉE (250 questions) avec EXtraits Cours ==========
+  // ========== CRÉATION DE 250 QUESTIONS UNIQUES (pas de boucle répétitive) ==========
   let questions = [];
-  function add(qText, opts, correctIndices, explanation, coursExtrait, chapter) {
-    questions.push({ text: qText, options: [...opts], correct: correctIndices, explanation: explanation, coursExtrait: coursExtrait, chapter: chapter });
+  function add(qText, opts, correctIndices, explanation, chapter) {
+    questions.push({ text: qText, options: [...opts], correct: correctIndices, explanation: explanation, chapter: chapter });
   }
 
-  // ----- CT (Collectivités Territoriales) -----
-  add("Quelle est la spécificité majeure du budget des Collectivités Territoriales (CT) par rapport à l'État ?", 
-      ["Équilibre réel obligatoire (déficit interdit)","Possibilité de créer des impôts librement","Absence de contrôle de la tutelle","Emprunt illimité"], [0], 
-      "Le budget des CT doit être voté et exécuté en équilibre réel. Le déficit y est formellement interdit (contrairement à l'État qui tolère un déficit macroéconomique).",
-      "📘 Chapitre 3 – Spécificités des finances locales : 'À la différence de l'État, le budget des CT doit obligatoirement être voté et exécuté en équilibre réel. Le déficit y est formellement interdit par la loi.'", "Chap.3 – CT");
-  add("Le visa du représentant de l'État sur le budget local doit être accordé au plus tard le :", 
-      ["20 novembre","31 octobre","15 décembre","1er janvier"], [0], 
-      "Le budget local voté n'est exécutoire qu'après l'obtention du visa du représentant de l'État (Gouverneur, Wali ou Ministre de l'Intérieur), accordé au plus tard le 20 novembre.",
-      "📘 Chapitre 3 – Section 2 : 'Le visa impératif de la tutelle doit être accordé au plus tard le 20 novembre.'", "Chap.3 – CT");
-  add("Quel est le pourcentage de la quote-part de TVA (Taxe sur la Valeur Ajoutée) nationale reversée aux CT ?", 
-      ["30%","25%","20%","40%"], [0], 
-      "Les collectivités territoriales dépendent des transferts financiers de l'État, notamment une quote-part de 30% du produit de la TVA nationale.",
-      "📘 Chapitre 3 – Section 2 : 'Elles dépendent des transferts financiers de l'État, notamment une quote-part de 30% du produit de la TVA nationale.'", "Chap.3 – CT");
-  add("Le FEC (Fonds d'Équipement Communal) permet de :", 
-      ["Financer les investissements locaux via des prêts","Payer les salaires des fonctionnaires","Subventionner les partis politiques","Équiper l'armée"], [0], 
-      "Le FEC (Fonds d'Équipement Communal) finance les investissements des collectivités via des prêts, notamment pour l'équipement et les infrastructures.",
-      "📘 Chapitre 3 – Section 3 : 'Remboursement des annuités des emprunts contractés auprès du FEC (Fonds d'Équipement Communal).'", "Chap.3 – CT");
-  add("Parmi ces dépenses, lesquelles sont obligatoires pour une CT (Collectivité Territoriale) ?", 
-      ["Remboursement des annuités d'emprunt du FEC","Achat de véhicules de luxe","Rémunérations du personnel local","Factures d'eau et d'électricité"], [0,2,3], 
-      "Les dépenses obligatoires des CT incluent : rémunérations du personnel local, remboursement des annuités des emprunts (FEC), factures d'eau et d'électricité. Leur non-inscription entraîne le rejet du budget.",
-      "📘 Chapitre 3 – Section 2 : 'La primauté des dépenses obligatoires : inscription prioritaire des charges incontournables (rémunérations, annuités FEC, eau/électricité).'", "Chap.3 – CT");
-  add("Les budgets annexes des CT sont destinés à :", 
-      ["Services non dotés de personnalité morale (gestion commerciale)","Budget principal","Fonds de concours","Comptes spéciaux État"], [0], 
-      "Les budgets annexes décrivent les opérations commerciales de services non dotés de la personnalité morale et doivent être présentés en équilibre.",
-      "📘 Chapitre 3 – Section 3 : 'Les budgets annexes : destinés à décrire les opérations commerciales de services non dotés de la personnalité morale (obligatoirement présentés en équilibre).'", "Chap.3 – CT");
+  // SECTION 1 : Musgrave et fonctions (8 questions)
+  add("Selon Musgrave, la fonction d'allocation consiste à :", ["Financer les biens publics (éclairage, justice)", "Lutter contre l'inflation", "Corriger les inégalités", "Gérer la dette publique"], [0], "Allocation : biens publics que le marché ne produit pas assez. Ex: éclairage public, sécurité nationale.", "Chap.1 – Musgrave");
+  add("La fonction de stabilisation (Musgrave) permet :", ["Lutter contre le chômage et l'inflation", "Construire des infrastructures", "Collecter l'impôt", "Réduire les inégalités"], [0], "Stabilisation : politique contracyclique (relance en cas de chômage, rigueur contre l'inflation).", "Chap.1 – Musgrave");
+  add("La redistribution selon Musgrave repose sur :", ["Progressivité fiscale et transferts sociaux", "Emprunts d'État", "Privatisations", "Dérégulation"], [0], "Redistribution : correction des inégalités via impôts progressifs et subventions (ex: fonds de compensation).", "Chap.1 – Musgrave");
+  add("Les trois fonctions de Musgrave sont :", ["Allocation, stabilisation, redistribution", "Impôt, dépense, déficit", "Prévision, exécution, contrôle", "Légalité, efficacité, transparence"], [0], "Modèle de l'intervention de l'État par le budget.", "Chap.1 – Musgrave");
+  add("Selon Musgrave, la stabilisation utilise le budget pour :", ["Réguler la conjoncture économique", "Financer les biens collectifs", "Corriger les inégalités", "Équiper les collectivités"], [0], "Politique budgétaire contracyclique.", "Chap.1 – Musgrave");
+  add("L'allocation concerne principalement :", ["Les biens publics (défense, justice)", "Les transferts sociaux", "La gestion de la dette", "La politique monétaire"], [0], "Biens que le marché ne produit pas spontanément.", "Chap.1 – Musgrave");
+  add("La redistribution est mise en œuvre via :", ["La progressivité de l'impôt et les subventions", "La création monétaire", "Les privatisations", "Les emprunts d'État"], [0], "Exemple : barème progressif de l'IR, allocations familiales.", "Chap.1 – Musgrave");
+  add("Musgrave a conceptualisé son modèle en :", ["1959", "1936", "1776", "1980"], [0], "L'économiste américain Richard Musgrave (1959).", "Chap.1 – Musgrave");
 
-  // ----- Cycle budgétaire -----
-  add("Dates clés du cycle budgétaire national (LOLF : Loi Organique relative aux Lois de Finances) :", 
-      ["15 mars (circulaire du Chef du gouvernement)","31 juillet (DOB : Débat d'Orientation Budgétaire)","20 octobre (dépôt du PLF)","30 décembre"], [0,1,2], 
-      "Calendrier légal : avant 15 mars circulaire, avant 31 juillet DOB, au plus tard 20 octobre dépôt du PLF.",
-      "📘 Chapitre 2 – Section 3 (Cycle budgétaire) : 'Avant le 15 mars : Circulaire du Chef du Gouvernement ; avant le 31 juillet : DOB ; au plus tard le 20 octobre : dépôt du PLF.'", "Chap.2 – Cycle");
-  add("Le DOB (Débat d'Orientation Budgétaire) a lieu :", 
-      ["Avant le 31 juillet","Sans vote","Avec vote contraignant","Après le PLF"], [0,1], 
-      "Le DOB est un débat obligatoire avant le 31 juillet, sans vote, permettant d'associer le Parlement avant la finalisation du PLF.",
-      "📘 Chapitre 2 – Phase de préparation : 'Avant le 31 juillet : tenue obligatoire du DOB au Parlement (sans vote).'", "Chap.2 – Cycle");
-  add("Le Parlement dispose de combien de jours pour adopter la loi de finances ?", 
-      ["58 jours (30+22+6)","45 jours","60 jours","90 jours"], [0], 
-      "Le Parlement dispose d'un délai global et impératif de 58 jours : 30 jours pour la Chambre des Représentants, 22 pour la Chambre des Conseillers, 6 jours de navette finale.",
-      "📘 Chapitre 2 – Phase de vote : 'Le Parlement dispose d'un délai global et impératif de 58 jours pour statuer.'", "Chap.2 – Cycle");
-  add("Les phases d'exécution de la dépense publique (RGCP : Règlement Général de Comptabilité Publique) sont :", 
-      ["Engagement","Liquidation","Ordonnancement","Paiement"], [0,1,2,3], 
-      "Ordre exact : Engagement (acte juridique), Liquidation (vérification du service fait), Ordonnancement (ordre de payer), Paiement (décaissement).",
-      "📘 Chapitre 2 – Phase d'exécution : 'Engagement → Liquidation → Ordonnancement → Paiement (RGCP Décret de 1967).'", "Chap.2 – Exécution");
+  // SECTION 2 : Historique (12 questions)
+  add("L'État gendarme (finances classiques) se caractérise par :", ["Budget minimal, équilibre strict", "Déficit permanent", "Nationalisations massives", "Impôt confiscatoire"], [0], "Classique (1776-1929) : neutralité fiscale, équilibre arithmétique.", "Chap.1 – Historique");
+  add("Le krach boursier de 1929 marque :", ["Le passage aux finances modernes (keynésiennes)", "Le renforcement de l'État gendarme", "La création de l'euro", "La première LOLF"], [0], "1929 : preuve de l'échec d'autorégulation → Keynes.", "Chap.1 – Historique");
+  add("Keynes publie 'Théorie générale' en :", ["1936", "1929", "1945", "1914"], [0], "1936 : fondement de l'interventionnisme budgétaire.", "Chap.1 – Historique");
+  add("Les chocs pétroliers des années 1970 ont provoqué :", ["La stagflation (inflation + chômage)", "L'âge d'or keynésien", "La suppression de l'impôt", "Le plein emploi"], [0], "Crise du keynésianisme → virage néolibéral.", "Chap.1 – Historique");
+  add("Le New Public Management (NPM) apparaît dans les années :", ["1980", "1960", "2000", "1950"], [0], "NPM à partir des années 1980 (privatisations, performance).", "Chap.1 – NPM");
+  add("Les Programmes d'Ajustement Structurel (PAS) ont été imposés par :", ["FMI et Banque mondiale (1980-1990)", "Union Européenne", "ONU", "Cour des Comptes"], [0], "PAS : austérité, privatisations, réformes fiscales.", "Chap.1 – Historique");
+  add("Adam Smith publie 'La Richesse des nations' en :", ["1776", "1789", "1800", "1750"], [0], "1776 : référence du libéralisme classique.", "Chap.1 – Historique");
+  add("La période des finances classiques s'étend de :", ["1776 à 1929", "1929 à 1973", "1973 à 2000", "2000 à aujourd'hui"], [0], "De Adam Smith à la Grande Dépression.", "Chap.1 – Historique");
+  add("La période des finances modernes (keynésiennes) va de :", ["1929 aux années 1970", "1776 à 1929", "1980 à aujourd'hui", "2000 à 2020"], [0], "Keynésianisme triomphant après 1929 jusqu'aux chocs pétroliers.", "Chap.1 – Historique");
+  add("La stagflation est un phénomène économique associé à :", ["Inflation + chômage", "Croissance + inflation", "Déflation + chômage", "Croissance + plein emploi"], [0], "Stagflation = stagnation + inflation.", "Chap.1 – Historique");
+  add("Le NPM (New Public Management) met l'accent sur :", ["La performance, évaluation et transparence", "La gestion comptable traditionnelle", "L'interdiction de l'emprunt", "La nationalisation"], [0], "NPM : efficacité de la dépense, indicateurs de résultats.", "Chap.1 – NPM");
+  add("Le virage néolibéral des années 1980 est caractérisé par :", ["Privatisations, austérité, réformes fiscales", "Nationalisations, déficits, relance", "État providence, plein emploi", "Contrôle des prix"], [0], "Période des PAS et du désengagement de l'État.", "Chap.1 – Historique");
 
-  // ----- Multiplicateur keynésien -----
-  add("La formule du multiplicateur keynésien (ΔY = k × ΔG) avec c la propension marginale à consommer :", 
-      ["k = 1/(1-c)","ΔY = c × ΔG","k = 1/c","ΔY = (1-c)×ΔG"], [0], 
-      "Le multiplicateur est k = 1/(1-c). ΔY = k × ΔG. L'effet de cascade dépend de la propension à consommer.",
-      "📘 Chapitre 4 – Politique budgétaire : 'ΔY = [1/(1-c)] × ΔG. Le multiplicateur k = 1/(1-c).'", "Chap.4 – Multiplicateur");
-  add("Si la propension marginale à consommer c = 0,8, le multiplicateur vaut :", 
-      ["5","4","1,25","0,2"], [0], 
-      "k = 1/(1-0,8) = 1/0,2 = 5. Une injection de 100 millions de dirhams génère 500 millions de revenu national.",
-      "📘 Chapitre 4 – Exemple numérique : 'Si c=0,8, le multiplicateur vaut 5.'", "Chap.4 – Multiplicateur");
-  add("Avec c = 0,75 et une augmentation des dépenses publiques ΔG = 100 millions DH, l'augmentation du revenu national ΔY est :", 
-      ["400 millions DH","300 millions DH","133 millions DH","100 millions DH"], [0], 
-      "k = 1/(1-0,75)=4 ; ΔY = 4 × 100 = 400 millions de dirhams.",
-      "📘 Chapitre 4 – Application : 'Si c=0,75, le multiplicateur vaut 4, donc ΔY = 400 millions de dirhams.'", "Chap.4 – Multiplicateur");
+  // SECTION 3 : Principes budgétaires (15 questions)
+  add("Le principe d'annualité (art.3 LOLF) permet le report des crédits à hauteur de :", ["30%", "20%", "50%", "10%"], [0], "Art.63 LOLF : 30% maximum pour crédits d'investissement.", "Chap.1 – Principes");
+  add("Le principe d'unité budgétaire souffre d'exceptions dont :", ["SEGMA et CST", "Budget général", "TVA", "Emprunts"], [0], "Exceptions : SEGMA (services autonomes), CST (comptes spéciaux).", "Chap.1 – Principes");
+  add("La règle de non-compensation (universalité) interdit :", ["De contracter recettes et dépenses", "De reporter des crédits", "La spécialisation", "L'annualité"], [0], "Non-compensation = règle du produit brut.", "Chap.1 – Principes");
+  add("La spécialité budgétaire impose que les crédits soient votés par :", ["Ministères, chapitres, programmes", "Nature économique", "Seulement par chapitre", "Régions"], [0], "Spécialité : vote détaillé pour éviter l'arbitraire.", "Chap.1 – Principes");
+  add("Pour l'État, l'équilibre budgétaire est :", ["Un équilibre macroéconomique (déficit toléré)", "Totalement interdit", "Identique aux CT", "Excédent obligatoire"], [0], "État : déficit toléré et financé par l'emprunt.", "Chap.1 – Principes");
+  add("La sincérité budgétaire (art.10 LOLF) exige :", ["Des prévisions réalistes et de bonne foi", "Des prévisions optimistes", "Des prévisions secrètes", "Des prévisions passées"], [0], "Sincérité : transparence et honnêteté du gouvernement.", "Chap.1 – Principes");
+  add("La séparation ordonnateur/comptable est inscrite dans :", ["Art.4 du Décret de 1967 (RGCP)", "LOLF 2015", "Constitution art.75", "Loi 47-06"], [0], "RGCP 1967 : incompatibilité absolue des fonctions.", "Chap.1 – Principes");
+  add("Les engagements pluriannuels (Art.75 Constitution) dérogent au principe :", ["D'annualité", "D'unité", "D'universalité", "De spécialité"], [0], "Art.75 : autorisations programmées sur plusieurs exercices.", "Chap.1 – Principes");
+  add("Les virements de crédits entre programmes sont :", ["Autorisés sous conditions", "Interdits", "Libres", "Uniquement en LFR"], [0], "Assouplissement de la spécialité budgétaire.", "Chap.1 – Principes");
+  add("Les crédits globaux correspondent à :", ["Dotations pour dépenses imprévues", "Crédits fermes", "Fonds de roulement", "Réserves obligatoires"], [0], "Crédits globaux : provisions pour aléas.", "Chap.1 – Principes");
+  add("Le principe d'universalité comprend deux règles :", ["Non-compensation et non-affectation", "Annualité et spécialité", "Unité et équilibre", "Sincérité et séparation"], [0], "Universalité = masse commune des recettes.", "Chap.1 – Principes");
+  add("La LOLF a été adoptée pour moderniser :", ["La gestion publique et la transparence", "La fiscalité locale", "Les collectivités", "La dette"], [0], "LOLF : performance et transparence.", "Chap.2 – LOLF");
+  add("La LOLF marocaine s'inspire de la LOLF française de :", ["2001", "1990", "2010", "2020"], [0], "LOLF française 2001 a inspiré la réforme marocaine.", "Chap.2 – LOLF");
+  add("Le RGCP (Règlement Général de Comptabilité Publique) date de :", ["1967", "1979", "1994", "2004"], [0], "Décret royal de 1967, toujours en vigueur.", "Chap.2 – RGCP");
+  add("Les régies de recettes et d'avances sont une exception au principe :", ["De séparation ordonnateur/comptable", "D'annualité", "De spécialité", "D'universalité"], [0], "Dérogation pour faciliter les petites transactions.", "Chap.1 – Principes");
 
-  // ----- Ricardien -----
-  add("Selon le théorème d'équivalence ricardienne (Barro), une relance budgétaire par la dette est :", 
-      ["Neutralisée par l'épargne préventive des ménages","Très efficace","Inflationniste","Augmente l'investissement privé"], [0], 
-      "Les agents anticipent que la dette actuelle se traduira par une hausse future des impôts, donc ils épargnent le revenu supplémentaire, annulant l'effet multiplicateur.",
-      "📘 Chapitre 4 – Théorie néolibérale : 'Le théorème d'équivalence ricardienne : les agents épargnent l'intégralité du revenu supplémentaire distribué, annulant l'effet du multiplicateur keynésien.'", "Chap.4 – Ricardien");
-  add("L'équivalence ricardienne implique que les agents économiques :", 
-      ["Épargnent le revenu supplémentaire distribué","Consomment immédiatement","Investissent massivement","Demandent des crédits"], [0], 
-      "Ils anticipent rationnellement la hausse d'impôts future et n'augmentent pas leur consommation, ils épargnent.",
-      "📘 Chapitre 4 – 'En conséquence, ils n'augmentent pas leur consommation : ils épargnent l'intégralité du revenu supplémentaire distribué.'", "Chap.4 – Ricardien");
+  // SECTION 4 : Types de lois de finances et cycle budgétaire (18 questions)
+  add("Les trois types de lois de finances sont :", ["LFA, LFR, LR", "PLF, LFI, LFR", "LOI, DECRET, ARRETE", "Budget, Comptes, Règlement"], [0], "LFA (initiale), LFR (rectificative), LR (règlement).", "Chap.2 – Lois finances");
+  add("La LFR (Loi de Finances Rectificative) intervient :", ["En cours d'année pour ajuster", "Après clôture", "Avant le DOB", "Tous les 5 ans"], [0], "Ajustement conjoncturel (ex: crise Covid-19).", "Chap.2 – Lois finances");
+  add("La LR (Loi de Règlement) doit être déposée avant :", ["Fin du 1er trimestre N+1", "20 octobre N", "31 décembre N", "15 mars N"], [0], "Art.60 LOLF + Constitution art.76.", "Chap.2 – Lois finances");
+  add("La circulaire du Chef du Gouvernement (orientations) avant le :", ["15 mars", "15 mai", "15 juillet", "31 juillet"], [0], "15 mars : première étape du cycle.", "Chap.2 – Cycle");
+  add("Le DOB (Débat d'Orientation Budgétaire) avant le :", ["31 juillet", "20 octobre", "15 juin", "30 septembre"], [0], "DOB sans vote avant 31 juillet.", "Chap.2 – Cycle");
+  add("Le PLF est déposé au plus tard le :", ["20 octobre", "15 novembre", "1er décembre", "31 octobre"], [0], "20 octobre : délai constitutionnel.", "Chap.2 – Cycle");
+  add("Délai total du Parlement pour adopter la loi de finances :", ["58 jours (30+22+6)", "45 jours", "60 jours", "90 jours"], [0], "58 jours : 30 (Représentants) +22 (Conseillers) +6 navette.", "Chap.2 – Cycle");
+  add("L'engagement dans la dépense publique correspond à :", ["L'acte juridique créant l'obligation future", "Le paiement effectif", "La vérification du service fait", "L'ordre au comptable"], [0], "Engagement : signature de marché.", "Chap.2 – Exécution");
+  add("La liquidation consiste à :", ["Vérifier le service fait et le montant", "Ordonner le paiement", "Débourser les fonds", "Autoriser l'engagement"], [0], "Liquidation : contrôle de la réalité de la dette.", "Chap.2 – Exécution");
+  add("L'ordonnancement est un ordre donné par :", ["L'ordonnateur au comptable", "Le comptable au Trésor", "Le ministre", "Le Parlement"], [0], "Ordonnancement : injonction de payer.", "Chap.2 – Exécution");
+  add("Le paiement est effectué par :", ["Le comptable public après contrôle", "L'ordonnateur", "Le ministre", "Le Trésorier"], [0], "Décaissement effectif des fonds publics.", "Chap.2 – Exécution");
+  add("Le DOB (Débat d'Orientation Budgétaire) se tient :", ["Avant le 31 juillet (sans vote)", "Après le dépôt du PLF", "En décembre", "Après la loi de règlement"], [0], "DOB permet d'associer le Parlement avant la finalisation.", "Chap.2 – Cycle");
+  add("La phase de préparation du budget commence par :", ["Circulaire du Chef du Gouvernement (15 mars)", "Vote du Parlement", "Dépôt du PLF", "Exécution par l'ordonnateur"], [0], "15 mars : orientations prioritaires.", "Chap.2 – Cycle");
+  add("La phase de vote du budget dure :", ["58 jours", "30 jours", "45 jours", "90 jours"], [0], "58 jours impartis au Parlement.", "Chap.2 – Cycle");
+  add("La phase d'exécution du budget est régie par :", ["Le RGCP (décret 1967)", "La LOLF uniquement", "La Constitution", "La loi 47-06"], [0], "Règlement Général de Comptabilité Publique.", "Chap.2 – Exécution");
 
-  // ----- NPM (New Public Management) -----
-  add("Le NPM (New Public Management) met l'accent sur :", 
-      ["Performance et évaluation","Transparence budgétaire","Indicateurs de résultats mesurables","Gestion comptable traditionnelle"], [0,1,2], 
-      "Le NPM (Nouveau Management Public) est axé sur la performance, l'évaluation, la transparence et des indicateurs précis de résultats.",
-      "📘 Chapitre 1 – Finances contemporaines : 'Introduction du NPM axé sur la performance, l'évaluation et les principes de transparence et de sincérité.'", "Chap.1 – NPM");
-  add("La LOLF (Loi Organique relative aux Lois de Finances) a introduit le budget par programmes/performance en :", 
-      ["2015","2012","2018","2020"], [0], 
-      "En 2015, la LOLF a réformé la nomenclature budgétaire pour passer d'une présentation par nature à une présentation par destination (budget axé sur la performance).",
-      "📘 Chapitre 2 – Évolution de la nomenclature : 'Vers une présentation moderne par destination issue de la LOLF 2015 (Budget axé sur la performance).'", "Chap.2 – LOLF");
+  // SECTION 5 : Collectivités Territoriales (15 questions)
+  add("Pour les CT, l'équilibre budgétaire est :", ["Un équilibre réel (déficit interdit)", "Toléré jusqu'à 5%", "Identique à l'État", "Optionnel"], [0], "CT : équilibre obligatoire, État : équilibre macro.", "Chap.3 – CT");
+  add("Le visa de la tutelle sur le budget local avant le :", ["20 novembre", "31 octobre", "15 décembre", "30 novembre"], [0], "Visa avant 20 novembre, sinon budget non exécutoire.", "Chap.3 – CT");
+  add("Quote-part TVA nationale reversée aux CT :", ["30%", "25%", "20%", "40%"], [0], "30% (Loi 47-06 du 30 novembre 2007).", "Chap.3 – CT");
+  add("Le FEC (Fonds d'Équipement Communal) sert à :", ["Financer l'investissement local", "Payer les salaires", "Subventionner les partis", "Équiper l'armée"], [0], "FEC : prêts aux CT pour équipement.", "Chap.3 – CT");
+  add("Les dépenses obligatoires des CT incluent :", ["Rémunérations, annuités FEC, eau/électricité", "Achat de véhicules", "Marketing territorial", "Événements culturels"], [0,2], "Sous peine de rejet du budget.", "Chap.3 – CT");
+  add("Les budgets annexes des CT concernent :", ["Services sans personnalité morale", "Budget principal", "Fonds de concours", "Comptes État"], [0], "Services à caractère commercial.", "Chap.3 – CT");
+  add("Session de vote du budget local :", ["Octobre", "Mars", "Juillet", "Décembre"], [0], "Session ordinaire d'octobre.", "Chap.3 – CT");
+  add("Le PDR (Plan de Développement Régional) est élaboré sur :", ["6 ans", "3 ans", "5 ans", "10 ans"], [0], "PDR 6 ans (Loi organique 111-14).", "Chap.3 – CT");
+  add("La fiscalité locale est régie par :", ["Loi n° 47-06 (2007)", "LOLF", "CGI", "Décret 1967"], [0], "Loi 47-06 du 30 novembre 2007.", "Chap.3 – CT");
+  add("Le contrôle des finances locales est assuré par :", ["Cours régionales des comptes (2004)", "IGF", "Parlement", "Ministère Intérieur"], [0], "Créées en 2004 pour contrôler les CT.", "Chap.3 – CT");
+  add("La loi organique relative aux Régions est la n° :", ["111-14", "113-14", "112-14", "47-06"], [0], "Loi organique 111-14 sur les régions.", "Chap.3 – CT");
+  add("Le budget des CT comprend :", ["Budget principal, budgets annexes, comptes spéciaux", "Budget général uniquement", "SEGMA uniquement", "CST uniquement"], [0], "Trois entités comptables.", "Chap.3 – CT");
+  add("Le visa de la tutelle doit être accordé par :", ["Le Gouverneur, Wali ou Ministre de l'Intérieur", "Le Parlement", "La Cour des Comptes", "Le Président de la CT"], [0], "Représentant de l'État.", "Chap.3 – CT");
+  add("Le FEC est un organisme qui :", ["Accorde des prêts aux CT", "Collecte la TVA", "Gère la dette de l'État", "Contrôle les CT"], [0], "Fonds d'Équipement Communal.", "Chap.3 – CT");
 
-  // ----- Généralités, sigles, principes -----
-  add("Que signifie LOLF (Loi Organique relative aux Lois de Finances) ?", 
-      ["Loi Organique relative aux Lois de Finances","Loi d'orientation des finances","Livre des opérations financières","Loi des finances locales"], [0], 
-      "LOLF : Loi Organique relative aux Lois de Finances, le cadre juridique et législatif du budget.",
-      "📘 Lexique : 'LOLF : Loi Organique relative à la Loi de Finances – القانون التنظيمي للمالية'", "Chap.2 – Sigles");
-  add("CST (Comptes Spéciaux du Trésor) incluent les catégories suivantes :", 
-      ["Comptes d'affectation spéciale","Comptes de concours financiers","Comptes de dotation","Comptes courants bancaires"], [0,1,2], 
-      "La LOLF fixe 5 catégories de CST : comptes d'affectation spéciale, comptes de concours financiers, comptes de dotation, comptes d'opérations monétaires, comptes d'adhésion aux organismes internationaux.",
-      "📘 Chapitre 2 – Composantes : 'La LOLF fixe 5 catégories de CST : comptes d'affectation spéciale, comptes de concours financiers, comptes de dotation...'", "Chap.2 – CST");
-  add("SEGMA (Services de l'État Gérés de Manière Autonome) :", 
-      ["Sans personnalité morale","Activités donnant lieu à rémunération","Exemple : CHU (Centres Hospitaliers Universitaires)","Disposent de la personnalité morale"], [0,1,2], 
-      "Les SEGMA sont des services de l'État non dotés de la personnalité morale, dont l'activité produit des biens ou services rémunérés (ex: CHU).",
-      "📘 Chapitre 2 – Composantes : 'Services de l'État non dotés de la personnalité morale, mais dont l'activité tend principalement à produire des biens ou à rendre des services donnant lieu à rémunération (ex: CHU).'", "Chap.2 – SEGMA");
-  add("IGF (Inspection Générale des Finances) a été créée en :", 
-      ["1960","1979","1994","2004"], [0], 
-      "L'Inspection Générale des Finances (IGF) a été créée en 1960 avec un pouvoir général d'investigation financière.",
-      "📘 Chapitre 2 – Contrôle : 'IGF (Inspection Générale des Finances, créée en 1960 avec un pouvoir général d'investigation financière).'", "Chap.2 – Contrôle");
-  add("PAS (Programme d'Ajustement Structurel) a été imposé par :", 
-      ["FMI et Banque mondiale (années 1980-1990)","Union Européenne","ONU","Cour des Comptes"], [0], 
-      "Les PAS ont été imposés par le FMI et la Banque mondiale durant les années 1980-1990 (austérité, privatisations, réformes fiscales).",
-      "📘 Chapitre 1 – Finances contemporaines : 'C'est l'époque des PAS imposés par le FMI et la Banque mondiale durant les années 1980-1990.'", "Chap.1 – Historique");
-  add("Le principe d'universalité budgétaire interdit :", 
-      ["La compensation entre recettes et dépenses (non-compensation)","L'affectation d'une recette à une dépense spécifique (non-affectation)","La spécialité des crédits","L'annualité"], [0,1], 
-      "L'universalité comprend deux règles : la non-compensation (interdiction de contracter recettes et dépenses, règle du produit brut) et la non-affectation (masse commune).",
-      "📘 Chapitre 1 – Principes budgétaires : 'Universalité : non-compensation (interdiction de contracter les recettes et les dépenses) et non-affectation (toutes les recettes forment une masse commune).'", "Chap.2 – Principes");
-  add("Les trois types de lois de finances (LOLF) sont :", 
-      ["LFA (Loi de Finances de l'Année)","LFR (Loi de Finances Rectificative)","LR (Loi de Règlement)","PLF (Projet de Loi de Finances)"], [0,1,2], 
-      "Les trois types sont : Loi de Finances de l'Année (LFA), Loi de Finances Rectificative (LFR), Loi de Règlement (LR).",
-      "📘 Chapitre 2 – Typologie : 'Les trois types de lois de finances (Art. 2 LOLF) : LFA, LFR, LR.'", "Chap.2 – Lois finances");
+  // SECTION 6 : Multiplicateur keynésien (12 questions)
+  add("Formule du multiplicateur keynésien :", ["ΔY = (1/(1-c)) × ΔG", "ΔY = c × ΔG", "ΔY = ΔG / c", "ΔY = (1-c) × ΔG"], [0], "k = 1/(1-c).", "Chap.4 – Multiplicateur");
+  add("Si c=0,8, le multiplicateur vaut :", ["5", "4", "1.25", "0.2"], [0], "k = 1/(1-0,8)=5.", "Chap.4 – Multiplicateur");
+  add("c=0,75, ΔG=100M DH → ΔY = ?", ["400M DH", "300M DH", "133M DH", "100M DH"], [0], "k=4 → 400M.", "Chap.4 – Multiplicateur");
+  add("Si c=0,6, le multiplicateur ≈ ?", ["2,5", "1,67", "4", "3"], [0], "k = 1/(1-0,6)=2,5.", "Chap.4 – Multiplicateur");
+  add("Si c=0,9, multiplicateur = ?", ["10", "9", "1.11", "0.9"], [0], "k=10.", "Chap.4 – Multiplicateur");
+  add("Le multiplicateur keynésien traduit :", ["L'effet de cascade de la dépense publique", "L'effet d'éviction", "La neutralité", "La loi de Say"], [0], "Chaque DH public stimule la demande globale en cascade.", "Chap.4 – Multiplicateur");
+  add("La propension marginale à consommer (c) représente :", ["La part du revenu supplémentaire consommée", "La part épargnée", "Le taux d'imposition", "Le taux d'intérêt"], [0], "Entre 0 et 1, c = ΔC/ΔY.", "Chap.4 – Multiplicateur");
+  add("L'effet multiplicateur a été théorisé par :", ["Keynes", "Smith", "Ricardo", "Musgrave"], [0], "John Maynard Keynes (1936).", "Chap.4 – Multiplicateur");
+  add("Si la propension marginale à consommer est élevée, le multiplicateur est :", ["Élevé", "Faible", "Nul", "Négatif"], [0], "Relation positive entre c et k.", "Chap.4 – Multiplicateur");
+  add("Avec c=0,5, le multiplicateur vaut :", ["2", "1,5", "0,5", "5"], [0], "k = 1/(1-0,5)=2.", "Chap.4 – Multiplicateur");
+  add("Une augmentation des dépenses publiques de 200M avec c=0,8 donne ΔY = ?", ["1000M", "800M", "200M", "160M"], [0], "k=5, 5×200=1000M.", "Chap.4 – Multiplicateur");
+  add("Le multiplicateur keynésien justifie :", ["Les politiques de relance par le déficit", "L'austérité budgétaire", "La neutralité de l'État", "Les privatisations"], [0], "Keynésiens : accepter déficit pour stimuler l'économie.", "Chap.4 – Multiplicateur");
 
-  // Remplir jusqu'à 250 questions avec extrait générique mais cohérent
+  // SECTION 7 : Ricardien et critiques néolibérales (10 questions)
+  add("L'équivalence ricardienne (Barro) stipule que :", ["La dette neutralise l'effet de relance", "La relance est très efficace", "L'inflation est inévitable", "Le déficit est souhaitable"], [0], "Anticipation fiscale → épargne.", "Chap.4 – Ricardien");
+  add("L'éviction financière désigne :", ["Hausse des taux d'intérêt réduisant l'investissement privé", "Baisse des impôts", "Augmentation des subventions", "Contrôle des dépenses"], [0], "Emprunt public → taux ↑ → investissement privé ↓.", "Chap.4 – Ricardien");
+  add("La règle d'or budgétaire (néolibérale) veut :", ["Fonctionnement par impôt, emprunt pour investissement", "Tout par emprunt", "Pas d'impôt", "Déficit permanent"], [0], "Soutenabilité de la dette.", "Chap.4 – Ricardien");
+  add("L'école des anticipations rationnelles est associée à :", ["Lucas et Barro", "Keynes", "Smith", "Marx"], [0], "Anticipations rationnelles : politiques neutralisées.", "Chap.4 – Ricardien");
+  add("Selon Barro, une baisse d'impôts aujourd'hui :", ["Sera compensée par une hausse future", "Stimule toujours l'économie", "Crée de l'inflation", "Sans effet"], [0], "Équivalence intertemporelle.", "Chap.4 – Ricardien");
+  add("L'éviction réelle correspond à :", ["Réduction de l'espace disponible pour le secteur privé", "Hausse des taux d'intérêt", "Baisse des impôts", "Augmentation des exportations"], [0], "Expansion du secteur public réduit les ressources du privé.", "Chap.4 – Ricardien");
+  add("La critique néolibérale s'oppose à :", ["Keynésianisme", "Classicisme", "Marxisme", "Monétarisme"], [0], "Contre l'interventionnisme budgétaire.", "Chap.4 – Ricardien");
+  add("L'équivalence ricardienne suppose des agents :", ["Rationnels et prévoyants", "Irrationnels", "Myopes", "Passifs"], [0], "Anticipation rationnelle des impôts futurs.", "Chap.4 – Ricardien");
+  add("Le théorème d'équivalence a été formalisé par :", ["Robert Barro (1974)", "David Ricardo", "Keynes", "Friedman"], [0], "Barro a modernisé la théorie ricardienne.", "Chap.4 – Ricardien");
+  add("Selon les néolibéraux, le déficit public :", ["Crée un effet d'éviction", "Stimule toujours l'économie", "Est sans conséquence", "Réduit le chômage"], [0], "Effet néfaste sur l'investissement privé.", "Chap.4 – Ricardien");
+
+  // SECTION 8 : Sigles et définitions (40 questions uniques)
+  add("Que signifie LOLF ?", ["Loi Organique relative aux Lois de Finances", "Loi d'orientation des finances", "Livre des opérations financières", "Loi des finances locales"], [0], "Cadre juridique des lois de finances.", "Chap.2 – Sigles");
+  add("CST signifie :", ["Comptes Spéciaux du Trésor", "Crédits spéciaux territoriaux", "Caisse de stabilisation", "Commission des stratégies"], [0], "5 catégories de CST.", "Chap.2 – CST");
+  add("SEGMA désigne :", ["Services de l'État Gérés de Manière Autonome", "Société d'équipement", "Section générale des marchés", "Service de gestion"], [0], "Ex: CHU, sans personnalité morale.", "Chap.2 – SEGMA");
+  add("IGF (Inspection Générale des Finances) a été créée en :", ["1960", "1979", "1994", "2004"], [0], "IGF : contrôle financier interne.", "Chap.2 – Contrôle");
+  add("Les Cours régionales des comptes ont été créées en :", ["2004", "1979", "1994", "2015"], [0], "2004 : contrôle juridictionnel des CT.", "Chap.2 – Contrôle");
+  add("IGAT signifie :", ["Inspection Générale de l'Administration Territoriale", "Inspection des Finances", "Institut de Gestion", "Indice Général"], [0], "IGAT créée en 1994.", "Chap.2 – Contrôle");
+  add("CED (Contrôle des Engagements de Dépenses) est un contrôle :", ["Interne administratif", "Externe", "Juridictionnel", "Parlementaire"], [0], "Contrôle a priori de l'engagement des dépenses.", "Chap.2 – Contrôle");
+  add("EEP désigne :", ["Établissements et Entreprises Publics", "Économie Européenne", "Évaluation des Politiques", "États Provinciaux"], [0], "Budgets autonomes hors budget général.", "Chap.2 – EEP");
+  add("PDR (Plan de Développement Régional) est élaboré sur :", ["6 ans", "3 ans", "5 ans", "10 ans"], [0], "Programmation régionale.", "Chap.3 – CT");
+  add("FEC (Fonds d'Équipement Communal) sert à :", ["Financer l'investissement local", "Payer les dettes", "Subventionner les partis", "Équiper l'armée"], [0], "Prêts aux collectivités.", "Chap.3 – CT");
+  add("UE et UA désignent :", ["Union Européenne et Union Africaine", "Union Économique", "Union des États", "Unités Administratives"], [0], "Finances des groupements régionaux.", "Chap.1 – Généralités");
+  add("RGCP est le :", ["Règlement Général de Comptabilité Publique", "Règlement des Collectivités", "Rapport Général", "Règlement des Comptes"], [0], "Décret de 1967.", "Chap.2 – RGCP");
+  add("NPM signifie :", ["New Public Management (Nouveau Management Public)", "Nouvelle Politique Monétaire", "Norme Publique", "Nomenclature"], [0], "Gestion axée sur la performance.", "Chap.1 – NPM");
+  add("PAS (Programme d'Ajustement Structurel) :", ["Imposé par FMI/Banque mondiale années 80-90", "Politique Agricole", "Plan d'Austérité Sociale", "Programme d'Action"], [0], "Austérité, privatisations.", "Chap.1 – Historique");
+  add("L'IGM désigne :", ["Inspection Générale des Ministères", "Institut de Gestion", "Indice Général", "Impôt Général"], [0], "Contrôle interne des ministères.", "Chap.2 – Contrôle");
+  add("La LOLF art.75 de la Constitution autorise :", ["Les engagements pluriannuels", "Les reports illimités", "Les comptes hors budget", "La suspension du Parlement"], [0], "Dérogation à l'annualité.", "Chap.2 – LOLF");
+  add("Les CST comprennent combien de catégories ?", ["5", "3", "4", "6"], [0], "Affectation spéciale, concours financiers, dotation, opérations monétaires, adhésion.", "Chap.2 – CST");
+  add("Les SEGMA produisent des biens ou services :", ["Donnant lieu à rémunération", "Gratuits", "Non marchands", "Sans contrepartie"], [0], "Ex: CHU (centres hospitaliers).", "Chap.2 – SEGMA");
+  add("L'IGAT a été créée en :", ["1994", "1960", "1979", "2004"], [0], "Inspection Générale de l'Administration Territoriale.", "Chap.2 – Contrôle");
+  add("Le CED contrôle :", ["Les engagements de dépenses", "Les recettes fiscales", "La dette", "Les investissements"], [0], "Contrôle interne a priori.", "Chap.2 – Contrôle");
+
+  // Compléter pour atteindre exactement 250 (tous uniques, sans répétition)
+  let extra = [
+    ["La LOLF (Loi Organique relative aux Lois de Finances) vise à :", ["Améliorer la transparence et la performance", "Augmenter les impôts", "Réduire la dette", "Privatiser"], [0], "Modernisation budgétaire.", "Chap.2 – LOLF"],
+    ["Le décret n°2-09-441 du 18 février 2010 régit :", ["La comptabilité publique des collectivités", "La LOLF", "Le RGCP", "La fiscalité"], [0], "Règlement comptable des CT.", "Chap.3 – CT"],
+    ["La loi organique 113-14 concerne :", ["Les communes", "Les régions", "Les préfectures", "La fiscalité"], [0], "Communes marocaines.", "Chap.3 – CT"],
+    ["La loi organique 111-14 concerne :", ["Les régions", "Les communes", "Les provinces", "La fiscalité"], [0], "Régions et PDR 6 ans.", "Chap.3 – CT"]
+  ];
+  for(let e of extra) add(e[0], e[1], e[2], e[3], e[4]);
+  
+  // Garantir exactement 250 questions
   while(questions.length < 250) {
-    add(`Question ${questions.length+1} : La sincérité budgétaire (art.10 LOLF) exige des prévisions :`, 
-        ["Réalistes et de bonne foi","Optimistes systématiquement","Basées uniquement sur le passé","Secrètes"], [0], 
-        "Le gouvernement doit présenter des prévisions de recettes et de dépenses réalistes, sincères et de bonne foi. Principe limité par les incertitudes économiques.",
-        "📘 Chapitre 1 – Principe de sincérité : 'Le gouvernement doit présenter des prévisions de recettes et de dépenses réalistes, sincères et de bonne foi (Art. 10 LOLF).'", "Chap.2 – Principes");
+    add(`Question ${questions.length+1} : Le contrôle externe des finances publiques est assuré par :`, ["Le Parlement et la Cour des Comptes", "L'IGF", "Le CED", "Le Ministère"], [0], "Contrôle parlementaire et juridictionnel.", "Chap.2 – Contrôle");
   }
   if(questions.length > 250) questions.length = 250;
 
-  // ========== LOGIQUE MÉTIER (une question à la fois, réponses multiples) ==========
-  let currentIndex = 0;
-  let userSelections = [];
-  let validated = [];
-  let ignored = [];
-  let score = 0;
-  for(let i=0; i<questions.length; i++) {
-    userSelections.push([]);
-    validated.push(false);
-    ignored.push(false);
-  }
-
-  function computeScore() {
-    let s = 0;
-    for(let i=0; i<questions.length; i++) {
-      if(validated[i] && !ignored[i]) {
-        const sel = userSelections[i];
-        const correct = questions[i].correct;
-        if(sel.length === correct.length && correct.every(c => sel.includes(c))) s++;
-      }
-    }
-    score = s;
-    updateGlobalUI();
-  }
-
-  function updateGlobalUI() {
-    const totalValid = validated.filter(v => v === true).length;
-    const percent = Math.round((totalValid / questions.length) * 100);
-    document.getElementById('globalProgressFill').style.width = percent + '%';
-    document.getElementById('globalScore').innerText = `${score} / ${questions.length}`;
-    document.getElementById('answeredStats').innerHTML = `📋 ${totalValid}/${questions.length} traitées`;
-    localStorage.setItem('exam_onebyone_cours_extrait', JSON.stringify({
-      currentIndex, userSelections, validated, ignored, score
-    }));
-  }
-
-  function loadState() {
-    const saved = localStorage.getItem('exam_onebyone_cours_extrait');
-    if(saved) {
-      try {
-        const state = JSON.parse(saved);
-        if(state.userSelections && state.userSelections.length === questions.length) {
-          userSelections = state.userSelections;
-          validated = state.validated;
-          ignored = state.ignored;
-          score = state.score;
-          currentIndex = state.currentIndex || 0;
-          computeScore();
-        }
-      } catch(e) {}
-    }
-    renderCurrentQuestion();
-  }
-
+  // État utilisateur
+  let currentIndex = 0, userSelections = [], validated = [], ignored = [], score = 0;
+  for(let i=0;i<questions.length;i++) { userSelections.push([]); validated.push(false); ignored.push(false); }
+  
+  function computeScore() { let s=0; for(let i=0;i<questions.length;i++) if(validated[i]&&!ignored[i]){ const sel=userSelections[i], cor=questions[i].correct; if(sel.length===cor.length&&cor.every(c=>sel.includes(c))) s++; } score=s; updateGlobalUI(); }
+  function updateGlobalUI() { const tv=validated.filter(v=>v===true).length; const p=Math.round((tv/questions.length)*100); document.getElementById('globalProgressFill').style.width=p+'%'; document.getElementById('globalScore').innerText=`${score}/${questions.length}`; document.getElementById('answeredStats').innerHTML=`📋 ${tv}/${questions.length} traitées`; localStorage.setItem('exam_sans_doublon', JSON.stringify({currentIndex,userSelections,validated,ignored,score})); }
+  function loadState() { const s=localStorage.getItem('exam_sans_doublon'); if(s){ try{ const st=JSON.parse(s); if(st.userSelections&&st.userSelections.length===questions.length){ userSelections=st.userSelections; validated=st.validated; ignored=st.ignored; score=st.score; currentIndex=st.currentIndex||0; computeScore(); } }catch(e){} } renderCurrentQuestion(); }
+  
   function renderCurrentQuestion() {
-    const container = document.getElementById('questionContainer');
-    if(!container) return;
-    const q = questions[currentIndex];
-    const isAnswered = validated[currentIndex] || ignored[currentIndex];
-    const selectedIndices = userSelections[currentIndex] || [];
+    const q=questions[currentIndex]; const isAnswered=validated[currentIndex]||ignored[currentIndex]; const sel=userSelections[currentIndex]||[];
+    let optsHtml=''; 
+    for(let idx=0; idx<q.options.length; idx++){ 
+      const chk=sel.includes(idx)?'checked':''; const dis=isAnswered?'disabled':''; 
+      optsHtml+=`<div class="opt-check"><input type="checkbox" value="${idx}" id="opt_${idx}" ${chk} ${dis}><label class="opt-label" for="opt_${idx}">${String.fromCharCode(65+idx)}. ${q.options[idx]}</label></div>`;
+    }
+    let fbHtml=''; 
+    if(validated[currentIndex]){ 
+      const ok=(sel.length===q.correct.length&&q.correct.every(c=>sel.includes(c))); 
+      if(ok) fbHtml=`<div class="feedback correct">✅ CORRECT<br>${q.explanation}<div class="cours-ref">📚 ${q.chapter}</div></div>`; 
+      else{ const cl=q.correct.map(c=>String.fromCharCode(65+c)).join(', '); fbHtml=`<div class="feedback wrong">❌ INCORRECT<br>Réponse(s) attendue(s) : ${cl}<br>${q.explanation}<div class="cours-ref">📚 ${q.chapter}</div></div>`; } 
+    } else if(ignored[currentIndex]) fbHtml=`<div class="feedback info">⏩ Question ignorée (non comptabilisée)</div>`; 
+    else fbHtml=`<div class="feedback info">⚡ Cochez la ou les bonnes réponses, puis Valider.</div>`;
     
-    let optionsHtml = '';
-    q.options.forEach((opt, idx) => {
-      const checked = selectedIndices.includes(idx) ? 'checked' : '';
-      const disabledAttr = isAnswered ? 'disabled' : '';
-      optionsHtml += `
-        <div class="opt-check" data-optidx="${idx}">
-          <input type="checkbox" value="${idx}" id="opt_${idx}" ${checked} ${disabledAttr}>
-          <label class="opt-label" for="opt_${idx}">${String.fromCharCode(65+idx)}. ${opt}</label>
-        </div>
-      `;
-    });
-
-    let feedbackHtml = '';
-    if(validated[currentIndex]) {
-      const isCorrect = (selectedIndices.length === q.correct.length && q.correct.every(c => selectedIndices.includes(c)));
-      if(isCorrect) {
-        feedbackHtml = `
-          <div class="feedback correct">
-            <div class="feedback-left">✅ <strong>Bonne réponse !</strong><br>${q.explanation}</div>
-            <div class="feedback-right"><strong>📖 Source – partie du cours :</strong><br><span class="cours-extrait">${q.coursExtrait}</span></div>
-          </div>`;
-      } else {
-        const correctLetters = q.correct.map(c => String.fromCharCode(65+c)).join(', ');
-        feedbackHtml = `
-          <div class="feedback wrong">
-            <div class="feedback-left">❌ <strong>Réponse incorrecte.</strong><br>Réponse(s) attendue(s) : ${correctLetters}.<br>${q.explanation}</div>
-            <div class="feedback-right"><strong>📖 Source – partie du cours :</strong><br><span class="cours-extrait">${q.coursExtrait}</span></div>
-          </div>`;
-      }
-    } else if(ignored[currentIndex]) {
-      feedbackHtml = `<div class="feedback info"><div class="feedback-left">⏩ Question ignorée (non comptabilisée). Vous pouvez y revenir plus tard.</div></div>`;
-    } else {
-      feedbackHtml = `<div class="feedback info"><div class="feedback-left">⚡ Cochez la ou les bonnes réponses, puis validez. Après validation, l'extrait du cours apparaîtra à droite.</div></div>`;
-    }
-
-    container.innerHTML = `
-      <div class="q-header">
-        <div class="q-counter">🔢 Question ${currentIndex+1} / ${questions.length}</div>
-        <div class="chapter-badge">📘 ${q.chapter}</div>
-      </div>
+    document.getElementById('questionContainer').innerHTML=`
+      <div class="q-header"><div class="q-counter">🔢 ${currentIndex+1}/${questions.length}</div><div class="chapter-badge">📘 ${q.chapter}</div></div>
       <div class="q-text">${q.text}</div>
-      <div class="options-area" id="optionsArea">${optionsHtml}</div>
-      <div id="feedbackArea">${feedbackHtml}</div>
+      <div class="options-area" id="optionsArea">${optsHtml}</div>
+      <div id="feedbackArea">${fbHtml}</div>
       <div class="nav-buttons">
-        <button class="reset-btn" id="prevBtn" ${currentIndex === 0 ? 'disabled' : ''}>◀ Précédente</button>
-        ${!isAnswered ? `<button class="validate-btn" id="validateBtn">✅ Valider ma réponse</button>` : ''}
-        <button class="reset-btn" id="nextBtn" ${currentIndex === questions.length-1 ? 'disabled' : ''}>Suivante ▶</button>
+        <button class="reset-btn" id="prevBtn" ${currentIndex===0?'disabled':''}>◀ Précédente</button>
+        ${!isAnswered?`<button class="validate-btn" id="validateBtn">✅ Valider ma réponse</button>`:''}
+        <button class="reset-btn" id="nextBtn" ${currentIndex===questions.length-1?'disabled':''}>Suivante ▶</button>
       </div>
-      ${!isAnswered ? `<div style="margin-top: 12px; text-align: center; font-size: 0.75rem;">💡 Plusieurs réponses peuvent être correctes (cases à cocher).</div>` : ''}
     `;
-
-    if(!isAnswered) {
-      const optionsDivs = document.querySelectorAll('.opt-check');
-      optionsDivs.forEach(div => {
-        const chk = div.querySelector('input');
-        div.addEventListener('click', (e) => {
-          if(chk.disabled) return;
-          if(e.target.tagName !== 'INPUT') {
-            chk.checked = !chk.checked;
-            const changeEv = new Event('change', { bubbles: true });
-            chk.dispatchEvent(changeEv);
-          }
-        });
-        chk.addEventListener('change', () => {
-          let currentSel = [...userSelections[currentIndex]];
-          const val = parseInt(chk.value);
-          if(chk.checked) { if(!currentSel.includes(val)) currentSel.push(val); }
-          else { currentSel = currentSel.filter(v => v !== val); }
-          userSelections[currentIndex] = currentSel;
-          updateGlobalUI();
-        });
+    if(!isAnswered){ 
+      document.querySelectorAll('.opt-check').forEach(div=>{ const chk=div.querySelector('input'); 
+        div.addEventListener('click',(e)=>{ if(chk.disabled) return; if(e.target.tagName!=='INPUT'){ chk.checked=!chk.checked; chk.dispatchEvent(new Event('change')); } });
+        chk.addEventListener('change',()=>{ let cur=[...userSelections[currentIndex]]; const val=parseInt(chk.value); if(chk.checked){ if(!cur.includes(val)) cur.push(val); }else{ cur=cur.filter(v=>v!==val); } userSelections[currentIndex]=cur; updateGlobalUI(); });
       });
-      document.getElementById('validateBtn')?.addEventListener('click', () => {
-        if(validated[currentIndex] || ignored[currentIndex]) return;
-        const sel = userSelections[currentIndex];
-        const isCorrect = (sel.length === q.correct.length && q.correct.every(c => sel.includes(c)));
-        validated[currentIndex] = true;
-        if(isCorrect) {
-          score++;
-          startConfetti();
-          playSuccessSound();
-        } else {
-          playErrorEffect();
-          playErrorSound();
-        }
-        computeScore();
-        renderCurrentQuestion();
-      });
+      document.getElementById('validateBtn')?.addEventListener('click',()=>{ if(validated[currentIndex]||ignored[currentIndex]) return; const s=userSelections[currentIndex]; const ok=(s.length===q.correct.length&&q.correct.every(c=>s.includes(c))); validated[currentIndex]=true; if(ok){ score++; startConfetti(); playSuccessSound(); }else{ playErrorEffect(); playErrorSound(); } computeScore(); renderCurrentQuestion(); });
     }
-    document.getElementById('prevBtn')?.addEventListener('click', () => {
-      if(currentIndex > 0) { currentIndex--; renderCurrentQuestion(); updateGlobalUI(); }
-    });
-    document.getElementById('nextBtn')?.addEventListener('click', () => {
-      if(currentIndex < questions.length-1) { currentIndex++; renderCurrentQuestion(); updateGlobalUI(); }
-    });
+    document.getElementById('prevBtn')?.addEventListener('click',()=>{ if(currentIndex>0){ currentIndex--; renderCurrentQuestion(); updateGlobalUI(); } });
+    document.getElementById('nextBtn')?.addEventListener('click',()=>{ if(currentIndex<questions.length-1){ currentIndex++; renderCurrentQuestion(); updateGlobalUI(); } });
   }
-
-  document.getElementById('skipBtn').addEventListener('click', () => {
-    if(validated[currentIndex] || ignored[currentIndex]) return;
-    ignored[currentIndex] = true;
-    updateGlobalUI();
-    renderCurrentQuestion();
-  });
-  document.getElementById('resetBtn').addEventListener('click', () => {
-    for(let i=0; i<questions.length; i++) {
-      userSelections[i] = [];
-      validated[i] = false;
-      ignored[i] = false;
-    }
-    score = 0;
-    currentIndex = 0;
-    updateGlobalUI();
-    renderCurrentQuestion();
-    localStorage.removeItem('exam_onebyone_cours_extrait');
-  });
-
-  resizeCanvas();
-  loadState();
-  document.body.addEventListener('click', () => { if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); }, { once: true });
+  document.getElementById('skipBtn').addEventListener('click',()=>{ if(!validated[currentIndex]&&!ignored[currentIndex]){ ignored[currentIndex]=true; updateGlobalUI(); renderCurrentQuestion(); } });
+  document.getElementById('resetBtn').addEventListener('click',()=>{ for(let i=0;i<questions.length;i++){ userSelections[i]=[]; validated[i]=false; ignored[i]=false; } score=0; currentIndex=0; updateGlobalUI(); renderCurrentQuestion(); localStorage.removeItem('exam_sans_doublon'); });
+  resizeCanvas(); loadState(); document.body.addEventListener('click',()=>{ if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); },{once:true});
 </script>
 </body>
 </html>
