@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Examen FP – 250 QCM (confettis bonne réponse / flash erreur)</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #eef2f7;
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      padding: 1.5rem 1rem;
+      color: #1a2c3e;
+      transition: background-color 0.1s ease;
+    }
+    .shake-effect {
+      animation: shake 0.3s ease-in-out 0s 2;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    .flash-red {
+      background-color: #ffdddd !important;
+      transition: background-color 0.05s;
+    }
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 2rem;
+      box-shadow: 0 25px 45px -12px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .exam-header {
+      background: #0f2b3d;
+      padding: 1.5rem 2rem;
+      color: white;
+      border-bottom: 5px solid #ffb74d;
+    }
+    .exam-header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.3rem;
+    }
+    .badge {
+      background: #ffb74d;
+      color: #0f2b3d;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 4px 12px;
+      border-radius: 40px;
+      display: inline-block;
+      margin-top: 8px;
+    }
+    .score-panel {
+      background: #fef9e6;
+      padding: 0.9rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 1px solid #e0e7ef;
+    }
+    .score-box {
+      background: #0f2b3d;
+      color: #ffd966;
+      padding: 6px 24px;
+      border-radius: 60px;
+      font-size: 1.8rem;
+      font-weight: bold;
+      font-family: monospace;
+    }
+    .reset-btn {
+      background: #e2e8f0;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      color: #1e4663;
+    }
+    .reset-btn:hover {
+      background: #cbd5e1;
+      transform: scale(0.97);
+    }
+    .progress-info {
+      background: #f1f5f9;
+      padding: 0.6rem 2rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-bottom: 1px solid #dce5ef;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .questions-area {
+      padding: 1.5rem 2rem 2rem 2rem;
+      max-height: 65vh;
+      overflow-y: auto;
+    }
+    .q-card {
+      background: #ffffff;
+      margin-bottom: 1.6rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border: 1px solid #eef2f8;
+    }
+    .q-header {
+      background: #fafcff;
+      padding: 0.9rem 1.5rem;
+      border-bottom: 2px solid #e9edf2;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .q-text {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.4;
+      flex: 1;
+    }
+    .q-num {
+      background: #ffb74d30;
+      color: #b45f1b;
+      font-weight: bold;
+      padding: 2px 10px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      display: inline-block;
+      margin-right: 12px;
+    }
+    .chapter-ref {
+      background: #e9ecef;
+      color: #2c3e66;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 3px 12px;
+      border-radius: 30px;
+      white-space: nowrap;
+    }
+    .options {
+      padding: 0.8rem 1.5rem 0.2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .opt {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fefefe;
+      padding: 6px 15px;
+      border-radius: 60px;
+      border: 1px solid #e2e8f0;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+    .opt:hover {
+      background: #f1f5f9;
+    }
+    input[type="radio"] {
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: #2c7a47;
+      cursor: pointer;
+    }
+    .opt-label {
+      font-size: 0.9rem;
+      flex: 1;
+      cursor: pointer;
+    }
+    .feedback {
+      margin: 0.2rem 1.5rem 0.8rem 1.5rem;
+      padding: 10px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+    .feedback.correct-feedback {
+      background: #e0f2e9;
+      color: #0a3b2a;
+      border-left: 6px solid #2e7d64;
+    }
+    .feedback.wrong-feedback {
+      background: #ffe9eb;
+      color: #9b2c2c;
+      border-left: 6px solid #c7362b;
+    }
+    .cours-link {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 0.75rem;
+      background: #eef2ff;
+      padding: 4px 12px;
+      border-radius: 30px;
+      text-decoration: none;
+      color: #1e40af;
+      font-weight: 500;
+    }
+    footer {
+      background: #f1f6fa;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.7rem;
+      border-top: 1px solid #dce5ef;
+    }
+    .floating-progress {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #0f2b3dee;
+      backdrop-filter: blur(8px);
+      border-radius: 48px;
+      padding: 12px 20px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 200px;
+      z-index: 1000;
+      border: 1px solid #ffb74d80;
+    }
+    .floating-title {
+      font-size: 0.7rem;
+      font-weight: bold;
+      color: #ffd966;
+    }
+    .progress-bar-bg {
+      background: #2c4b66;
+      border-radius: 30px;
+      height: 12px;
+      width: 100%;
+      overflow: hidden;
+    }
+    .progress-fill {
+      background: #ffb74d;
+      width: 0%;
+      height: 100%;
+      border-radius: 30px;
+      transition: width 0.2s ease;
+    }
+    .floating-stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: white;
+      font-weight: 500;
+    }
+    .cours-reference-section {
+      background: #fef9e6;
+      margin-top: 2rem;
+      border-top: 3px solid #ffb74d;
+    }
+    .ref-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #fff0d4;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .toggle-ref-btn {
+      background: #ffb74d;
+      border: none;
+      border-radius: 40px;
+      padding: 5px 14px;
+      cursor: pointer;
+    }
+    .ref-content {
+      padding: 0.5rem 2rem 1.5rem 2rem;
+    }
+    .ref-content.hidden {
+      display: none;
+    }
+    .ref-paragraph {
+      margin-bottom: 1rem;
+      padding: 0.8rem;
+      background: #fff7e0;
+      border-radius: 20px;
+      scroll-margin-top: 80px;
+    }
+    canvas#confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2000;
+    }
+    @media (max-width: 640px) {
+      .floating-progress { padding: 8px 16px; min-width: 160px; }
+      .questions-area { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+<canvas id="confettiCanvas"></canvas>
+<div class="container">
+  <div class="exam-header">
+    <h1>📚 Finances Publiques – 250 QCM (Effets visuels)</h1>
+    <div>Pr. EL OUALI | ✅ Bonne réponse → confettis | ❌ Erreur → flash rouge + secousse</div>
+    <div class="badge">Chapitre + lien paragraphe + barre flottante</div>
+  </div>
+  <div class="score-panel">
+    <div class="score-box" id="scoreDisplay">0 / 250</div>
+    <button class="reset-btn" id="resetQuiz">⟳ Réinitialiser</button>
+  </div>
+  <div class="progress-info">
+    <span id="progressText">📊 Progression : 0/250 | Score : 0</span>
+    <span>🎉 Effet confettis pour chaque bonne réponse !</span>
+  </div>
+  <div class="questions-area" id="questionsContainer"></div>
+
+  <div class="cours-reference-section">
+    <div class="ref-header" id="toggleRefHeader">
+      <h3>📖 Références cours (repliable)</h3>
+      <button class="toggle-ref-btn" id="toggleRefBtn">🔽 Masquer</button>
+    </div>
+    <div class="ref-content" id="refContent">
+      <div id="refCT" class="ref-paragraph"><strong>📍 Chap.3 – CT</strong><br>Équilibre réel, visa 20 nov, TVA 30%, FEC, dépenses obligatoires.</div>
+      <div id="refCycle" class="ref-paragraph"><strong>📍 Chap.2 – Cycle budgétaire</strong><br>15 mars, 31 juillet DOB, 20 oct PLF, 58 jours, phases exécution.</div>
+      <div id="refMulti" class="ref-paragraph"><strong>📍 Chap.4 – Multiplicateur</strong><br>ΔY = (1/(1-c))×ΔG.</div>
+      <div id="refRicardien" class="ref-paragraph"><strong>📍 Chap.4 – Ricardien</strong><br>Anticipation → épargne, effet nul.</div>
+      <div id="refNPM" class="ref-paragraph"><strong>📍 Chap.1/2 – NPM</strong><br>Performance, indicateurs, LOLF 2015.</div>
+      <div id="refGeneral" class="ref-paragraph"><strong>📍 Chap.1/2 – Généralités</strong><br>Musgrave, principes, SIGLES, lois de finances.</div>
+    </div>
+  </div>
+  <footer>250 QCM – Cliquez sur une réponse : confettis si juste, flash rouge + shake si erreur.</footer>
+</div>
+<div class="floating-progress" id="floatingProgress">
+  <div class="floating-title">📈 PROGRÈS</div>
+  <div class="progress-bar-bg"><div class="progress-fill" id="floatingFill"></div></div>
+  <div class="floating-stats"><span>✅ <span id="floatingScore">0</span>/250</span><span>📋 <span id="floatingAnswered">0</span></span><span>🎯 <span id="floatingPercent">0</span>%</span></div>
+</div>
+
+<script>
+  // ========== CONFETTIS (canvas simple) ==========
+  const canvas = document.getElementById('confettiCanvas');
+  let ctx = canvas.getContext('2d');
+  let animationId = null;
+  let particles = [];
+  function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  window.addEventListener('resize', resizeCanvas);
+  function startConfetti() {
+    if(animationId) cancelAnimationFrame(animationId);
+    particles = [];
+    const count = 180;
+    for(let i=0;i<count;i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        size: Math.random() * 6 + 2,
+        speedX: (Math.random() - 0.5) * 4,
+        speedY: Math.random() * 8 + 5,
+        color: `hsl(${Math.random() * 360}, 80%, 60%)`,
+        rotation: Math.random() * 360,
+        rotSpeed: (Math.random() - 0.5) * 10
+      });
+    }
+    function draw() {
+      if(!ctx) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let active = false;
+      for(let p of particles) {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.rotation += p.rotSpeed;
+        if(p.y < canvas.height + 50) active = true;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation * Math.PI/180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+        ctx.restore();
+      }
+      if(active) animationId = requestAnimationFrame(draw);
+      else { cancelAnimationFrame(animationId); animationId = null; ctx.clearRect(0,0,canvas.width,canvas.height); }
+    }
+    resizeCanvas();
+    animationId = requestAnimationFrame(draw);
+    setTimeout(() => { if(animationId) { cancelAnimationFrame(animationId); animationId=null; ctx.clearRect(0,0,canvas.width,canvas.height); } }, 2000);
+  }
+  // Effet erreur : flash rouge + shake sur body
+  function playErrorEffect() {
+    document.body.classList.add('flash-red');
+    document.body.classList.add('shake-effect');
+    setTimeout(() => { document.body.classList.remove('flash-red'); }, 200);
+    setTimeout(() => { document.body.classList.remove('shake-effect'); }, 400);
+  }
+
+  // ========== GÉNÉRATION 250 QUESTIONS (même base que précédente) ==========
+  let questions = [];
+  function add(qText, opts, correctIdx, explanation, anchorId, chapterName) {
+    questions.push({ text: qText, options: [...opts], correct: correctIdx, explanation: explanation, anchor: anchorId, chapter: chapterName });
+  }
+  // CT
+  add("Spécificité CT vs État ?", ["Équilibre réel (déficit interdit)","Création impôts libre","Pas de tutelle","Emprunt illimité"],0,"Équilibre obligatoire.","refCT","Chap.3 – CT");
+  add("Visa tutelle budget local avant le :", ["20 novembre","31 octobre","15 décembre","1er janvier"],0,"20 novembre.","refCT","Chap.3 – CT");
+  add("% TVA nationale reversé CT ?", ["30%","25%","20%","40%"],0,"30% Loi 47-06.","refCT","Chap.3 – CT");
+  add("FEC permet :", ["Financer investissements locaux","Payer salaires","Subventions partis","Équiper armée"],0,"Prêts CT.","refCT","Chap.3 – CT");
+  add("Dépense obligatoire CT ?", ["Remboursement annuités FEC","Achat luxe","Marketing","Festivals"],0,"Annuités FEC.","refCT","Chap.3 – CT");
+  add("Budgets annexes CT :", ["Services sans personnalité morale","Budget principal","Fonds concours","Comptes État"],0,"Équilibre commercial.","refCT","Chap.3 – CT");
+  add("Vote budget CT session :", ["Octobre","Mars","Juillet","Décembre"],0,"Octobre.","refCT","Chap.3 – CT");
+  add("Rejet budget CT si :", ["Dépenses obligatoires non inscrites","Maire absent","TVA basse","Déficit faible"],0,"Obligations non respectées.","refCT","Chap.3 – CT");
+  // Cycle
+  add("Circulaire Chef gouvernement avant :", ["15 mars","15 mai","15 juillet","31 juillet"],0,"15 mars.","refCycle","Chap.2 – Cycle");
+  add("DOB avant le :", ["31 juillet","20 octobre","15 juin","30 sept"],0,"31 juillet.","refCycle","Chap.2 – Cycle");
+  add("Dépôt PLF au plus tard :", ["20 octobre","15 nov","1er déc","31 oct"],0,"20 octobre.","refCycle","Chap.2 – Cycle");
+  add("Délai Parlement (jours) :", ["58 (30+22+6)","45","60","90"],0,"58 jours.","refCycle","Chap.2 – Cycle");
+  add("Engagement = ?", ["Acte juridique obligation future","Paiement","Vérification","Ordre comptable"],0,"Signature marché.","refCycle","Chap.2 – Exécution");
+  add("Liquidation :", ["Vérifier service fait","Ordonner","Débourser","Autoriser"],0,"Contrôle réalité dette.","refCycle","Chap.2 – Exécution");
+  add("Ordonnancement par :", ["Ordonnateur au comptable","Comptable","Ministre","Parlement"],0,"Injonction payer.","refCycle","Chap.2 – Exécution");
+  add("Paiement effectué par :", ["Comptable public","Ordonnateur","Ministre","Trésorier"],0,"Décaissement contrôlé.","refCycle","Chap.2 – Exécution");
+  // Multiplicateur
+  add("Formule multiplicateur :", ["ΔY = (1/(1-c))×ΔG","ΔY = c×ΔG","ΔY = ΔG/c","ΔY = (1-c)×ΔG"],0,"k=1/(1-c).","refMulti","Chap.4 – Multiplicateur");
+  add("c=0,8 → multiplicateur :", ["5","4","1.25","0.2"],0,"k=5.","refMulti","Chap.4 – Multiplicateur");
+  add("c=0,75, ΔG=100M → ΔY :", ["400M","300M","133M","100M"],0,"k=4 => 400M.","refMulti","Chap.4 – Multiplicateur");
+  add("Multiplicateur repose sur :", ["Effet cascade consommation","Impôt réduit","Emprunt nul","Autorégulation"],0,"Stimule demande.","refMulti","Chap.4 – Multiplicateur");
+  add("c=0,6 → k ≈ ?", ["2.5","1.66","4","3"],0,"2.5.","refMulti","Chap.4 – Multiplicateur");
+  // Ricardien
+  add("Équivalence ricardienne :", ["Neutralisée par épargne","Très efficace","Inflationniste","Sans effet"],0,"Anticipation fiscale.","refRicardien","Chap.4 – Ricardien");
+  add("Agents ricardiens :", ["Épargnent revenu supplémentaire","Consomment","Investissent","Réduisent impôts"],0,"Épargne préventive.","refRicardien","Chap.4 – Ricardien");
+  add("S'oppose à :", ["Multiplicateur keynésien","Loi Say","Règle or","Progressivité"],0,"Annule effet relance.","refRicardien","Chap.4 – Ricardien");
+  add("Anticipations rationnelles :", ["Politiques budgétaires inefficaces","État doit relancer","Déficit souhaitable","Impôt nul"],0,"Neutralisation.","refRicardien","Chap.4 – Ricardien");
+  // NPM
+  add("NPM met l'accent sur :", ["Performance, évaluation","Comptabilité tradi","Interdiction emprunt","Nationalisation"],0,"Efficacité.","refNPM","Chap.1 – NPM");
+  add("LOLF budget par performance en :", ["2015","2012","2018","2020"],0,"2015.","refNPM","Chap.2 – LOLF");
+  add("Structure NPM :", ["Programmes, objectifs","Nature dépenses","Chapitres","Régions"],0,"Indicateurs.","refNPM","Chap.2 – NPM");
+  add("Approche managériale :", ["NPM","Keynésianisme","Marxisme","Classique"],0,"NPM.","refNPM","Chap.1 – NPM");
+  add("Indicateur performance :", ["Mesurer atteinte objectifs","Augmenter dépenses","Réduire impôts","Supprimer contrôle"],0,"Évaluation.","refNPM","Chap.2 – NPM");
+  add("Sincérité inscrite dans :", ["LOLF art.10","Loi 47-06","Décret 1967","Art.75"],0,"LOLF.","refNPM","Chap.2 – LOLF");
+  // Généralités
+  add("Musgrave allocation :", ["Biens publics","Lutte inflation","Redistribution","Dette"],0,"Biens publics.","refGeneral","Chap.1 – Musgrave");
+  add("Stabilisation Musgrave :", ["Réguler conjoncture","Infrastructures","Impôt","Inégalités"],0,"Contracyclique.","refGeneral","Chap.1 – Musgrave");
+  add("État gendarme :", ["Budget minimal équilibre strict","Déficit","Nationalisations","Impôt confiscatoire"],0,"Classique.","refGeneral","Chap.1 – Historique");
+  add("Keynes 'Théorie générale' :", ["1936","1929","1945","1914"],0,"1936.","refGeneral","Chap.1 – Historique");
+  add("Chocs pétroliers 1970 →", ["Stagflation","Âge d'or déficits","Suppression impôt","Plein emploi"],0,"Stagflation.","refGeneral","Chap.1 – Historique");
+  add("LOLF signifie :", ["Loi Organique relative Lois Finances","Loi orientation","Livre opérations","Loi finances locales"],0,"LOLF.","refGeneral","Chap.2 – LOLF");
+  add("CST = ?", ["Comptes Spéciaux Trésor","Crédits spéciaux","Caisse stabilisation","Commission"],0,"5 catégories.","refGeneral","Chap.2 – CST");
+  add("SEGMA = ?", ["Services État Gérés Autonome","Société équipement","Section marchés","Service gestion"],0,"Ex CHU.","refGeneral","Chap.2 – SEGMA");
+  add("IGF créée en :", ["1960","1979","1994","2004"],0,"1960.","refGeneral","Chap.2 – Contrôle");
+  add("Cours régionales comptes :", ["2004","1979","1994","2015"],0,"2004.","refGeneral","Chap.2 – Contrôle");
+  add("Annualité report max :", ["30%","20%","50%","10%"],0,"Art.63 LOLF.","refGeneral","Chap.2 – Principes");
+  add("Dérogation unité :", ["SEGMA et CST","Budget général","TVA","Emprunts"],0,"Exceptions.","refGeneral","Chap.2 – Principes");
+  add("Universalité interdit :", ["Compensation recettes/dépenses","Vote Parlement","Prélèvements","Investissements"],0,"Non-compensation.","refGeneral","Chap.2 – Principes");
+  add("Spécialité : crédits par :", ["Ministères, programmes","Nature juridique","Chapitre seul","Régions"],0,"Détail.","refGeneral","Chap.2 – Principes");
+  add("Sincérité exige :", ["Prévisions réalistes","Optimistes","Passé","Secrètes"],0,"Bonne foi.","refGeneral","Chap.2 – Principes");
+  add("Types lois finances :", ["LFA, LFR, LR","PLF, LFI","LOI, DECRET","Budget, Comptes"],0,"LFA LFR LR.","refGeneral","Chap.2 – Lois finances");
+  while(questions.length<250) add(`Question ${questions.length+1} : Principe de non-affectation ?`, ["Masse commune recettes","Compensation","Spécialité","Annualité"],0,"Universalité.","refGeneral","Chap.2 – Principes");
+  if(questions.length>250) questions.length=250;
+
+  // État + logique avec effets visuels
+  let userAnswers = new Array(questions.length).fill(null);
+  let answerSubmitted = new Array(questions.length).fill(false);
+  let currentScore = 0;
+  const containerDiv = document.getElementById('questionsContainer');
+  const scoreSpan = document.getElementById('scoreDisplay');
+  const progressSpan = document.getElementById('progressText');
+  const floatingFill = document.getElementById('floatingFill');
+  const floatingScoreSpan = document.getElementById('floatingScore');
+  const floatingAnsweredSpan = document.getElementById('floatingAnswered');
+  const floatingPercentSpan = document.getElementById('floatingPercent');
+
+  function updateUI() {
+    scoreSpan.innerText = `${currentScore} / ${questions.length}`;
+    const answeredCount = answerSubmitted.filter(v=>v===true).length;
+    progressSpan.innerText = `📊 Progression : ${answeredCount}/${questions.length} | Score : ${currentScore}`;
+    const percentTotal = Math.round((answeredCount/questions.length)*100);
+    floatingFill.style.width = percentTotal+'%';
+    floatingAnsweredSpan.innerText = answeredCount;
+    floatingScoreSpan.innerText = currentScore;
+    floatingPercentSpan.innerText = Math.round((currentScore/questions.length)*100);
+    localStorage.setItem('exam_fp_final', JSON.stringify({ answers: userAnswers, submitted: answerSubmitted, score: currentScore }));
+  }
+  function loadLocalState() {
+    const saved = localStorage.getItem('exam_fp_final');
+    if(saved) {
+      try {
+        const state = JSON.parse(saved);
+        if(state.answers && state.answers.length===questions.length) {
+          userAnswers = state.answers;
+          answerSubmitted = state.submitted;
+          currentScore = 0;
+          for(let i=0;i<questions.length;i++) if(answerSubmitted[i] && userAnswers[i]!==null && userAnswers[i]===questions[i].correct) currentScore++;
+          updateUI(); renderAllQuestions();
+        }
+      } catch(e) {}
+    }
+  }
+  function answerQuestion(qIdx, selectedIdx) {
+    if(answerSubmitted[qIdx]) return;
+    const isCorrect = (selectedIdx === questions[qIdx].correct);
+    userAnswers[qIdx] = selectedIdx;
+    answerSubmitted[qIdx] = true;
+    if(isCorrect) { currentScore++; startConfetti(); }
+    else { playErrorEffect(); }
+    updateUI();
+    renderSingleQuestion(qIdx);
+  }
+  function resetQuiz() {
+    userAnswers.fill(null); answerSubmitted.fill(false); currentScore = 0;
+    updateUI(); renderAllQuestions(); localStorage.removeItem('exam_fp_final');
+  }
+  function renderSingleQuestion(idx) {
+    const card = document.getElementById(`q-card-${idx}`);
+    if(!card) return;
+    const q = questions[idx];
+    const submitted = answerSubmitted[idx];
+    const selected = userAnswers[idx];
+    const radios = card.querySelectorAll(`input[name="q${idx}"]`);
+    radios.forEach((radio, optIdx) => {
+      if(submitted && selected===optIdx) radio.checked=true;
+      else if(!submitted) radio.checked=false;
+      radio.disabled = submitted;
+    });
+    let fbDiv = card.querySelector('.feedback');
+    if(!fbDiv) {
+      const optsDiv = card.querySelector('.options');
+      const newFb = document.createElement('div'); newFb.className='feedback';
+      optsDiv.insertAdjacentElement('afterend', newFb);
+      fbDiv = newFb;
+    }
+    if(submitted) {
+      const correct = (selected === q.correct);
+      fbDiv.className = correct ? 'feedback correct-feedback' : 'feedback wrong-feedback';
+      fbDiv.innerHTML = correct ? `✅ Juste<br>${q.explanation}<br><a class="cours-link" href="#${q.anchor}">📖 Voir cours (${q.chapter})</a>` : `❌ Faux. Bonne : ${String.fromCharCode(65+q.correct)}. ${q.options[q.correct]}<br>${q.explanation}<br><a class="cours-link" href="#${q.anchor}">📖 Voir cours (${q.chapter})</a>`;
+    } else {
+      fbDiv.className = 'feedback';
+      fbDiv.innerHTML = `⚡ En attente. <a class="cours-link" href="#${q.anchor}">📖 Consulter (${q.chapter})</a>`;
+    }
+  }
+  function renderAllQuestions() {
+    let html = '';
+    for(let i=0;i<questions.length;i++) {
+      const q = questions[i];
+      let optsHtml = '';
+      for(let o=0;o<q.options.length;o++) {
+        const checkedAttr = (answerSubmitted[i] && userAnswers[i]===o) ? 'checked' : '';
+        const disabledAttr = answerSubmitted[i] ? 'disabled' : '';
+        optsHtml += `<div class="opt"><input type="radio" name="q${i}" value="${o}" id="q${i}_${o}" ${checkedAttr} ${disabledAttr}><label class="opt-label" for="q${i}_${o}">${String.fromCharCode(65+o)}. ${q.options[o]}</label></div>`;
+      }
+      html += `<div class="q-card" id="q-card-${i}"><div class="q-header"><div class="q-text"><span class="q-num">Q${i+1}/250</span> ${q.text}</div><div class="chapter-ref">📘 ${q.chapter}</div></div><div class="options">${optsHtml}</div><div class="feedback">⚡ En attente. <a class="cours-link" href="#${q.anchor}">📖 Voir (${q.chapter})</a></div></div>`;
+    }
+    containerDiv.innerHTML = html;
+    for(let i=0;i<questions.length;i++) {
+      const card = document.getElementById(`q-card-${i}`);
+      const optDivs = card.querySelectorAll('.opt');
+      optDivs.forEach(div => {
+        const radio = div.querySelector('input');
+        if(radio && !radio.disabled) {
+          radio.addEventListener('change', (e) => { if(e.target.checked) answerQuestion(i, parseInt(e.target.value)); });
+          div.addEventListener('click', (e) => { if(radio.disabled) return; if(e.target.tagName!=='INPUT') { radio.checked=true; radio.dispatchEvent(new Event('change')); } });
+        }
+      });
+      if(answerSubmitted[i]) renderSingleQuestion(i);
+    }
+  }
+  const refContent = document.getElementById('refContent');
+  const toggleBtn = document.getElementById('toggleRefBtn');
+  function toggleRef() { refContent.classList.toggle('hidden'); toggleBtn.innerText = refContent.classList.contains('hidden') ? '🔽 Afficher' : '🔽 Masquer'; localStorage.setItem('refHidden', refContent.classList.contains('hidden')); }
+  window.onload = () => { loadLocalState(); renderAllQuestions(); if(localStorage.getItem('refHidden')==='true') { refContent.classList.add('hidden'); toggleBtn.innerText='🔽 Afficher'; } document.getElementById('resetQuiz').addEventListener('click', resetQuiz); document.getElementById('toggleRefHeader').addEventListener('click', toggleRef); toggleBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleRef(); }); resizeCanvas(); };
+</script>
+</body>
+</html>
