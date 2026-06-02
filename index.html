@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Examen FP – Vérifié (mode une question, réponses multiples, sons)</title>
+  <title>Examen FP – Vérifié | Justification + extrait cours par réponse</title>
   <style>
     * {
       margin: 0;
@@ -29,7 +29,7 @@
       transition: background-color 0.05s;
     }
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 1rem;
     }
@@ -201,10 +201,30 @@
       border-radius: 1rem;
       font-size: 0.85rem;
       line-height: 1.4;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
     }
     .feedback.correct { background: #e0f2e9; color: #0a3b2a; border-left: 6px solid #2e7d64; }
     .feedback.wrong { background: #ffe9eb; color: #9b2c2c; border-left: 6px solid #c7362b; }
     .feedback.info { background: #eef2ff; border-left: 6px solid #3b82f6; }
+    .feedback-left {
+      flex: 2;
+    }
+    .feedback-right {
+      flex: 1;
+      background: #ffffffcc;
+      padding: 8px 12px;
+      border-radius: 16px;
+      font-size: 0.8rem;
+      border-left: 3px solid #ffb74d;
+      color: #2c3e66;
+    }
+    .cours-extrait {
+      font-style: italic;
+      font-weight: 500;
+    }
     .nav-buttons {
       display: flex;
       justify-content: space-between;
@@ -225,6 +245,8 @@
       .question-card { padding: 1.2rem; }
       .q-text { font-size: 1rem; }
       .opt-label { font-size: 0.85rem; }
+      .feedback { flex-direction: column; }
+      .feedback-right { margin-top: 8px; }
     }
   </style>
 </head>
@@ -232,9 +254,9 @@
 <canvas id="confettiCanvas"></canvas>
 <div class="sticky-header">
   <div class="exam-header">
-    <h1>📚 Finances Publiques – Mode corrigé (vérifié)</h1>
-    <div>✅ Réponses multiples | 🔊 Son succès/erreur | ⏩ Ignorer sans pénalité</div>
-    <div class="badge">Définitions des sigles entre parenthèses</div>
+    <h1>📚 Finances Publiques – Mode vérifié</h1>
+    <div>✅ Réponses multiples | 🔊 Son + confettis | 📖 À droite : extrait du cours justifiant la réponse</div>
+    <div class="badge">Définition des sigles entre parenthèses – Chaque réponse validée affiche la source du cours</div>
   </div>
   <div class="progress-section">
     <div class="progress-bar-container">
@@ -356,99 +378,126 @@
     setTimeout(() => { document.body.classList.remove('shake-effect'); }, 400);
   }
 
-  // ========== BASE DE DONNÉES CORRIGÉE (250 questions) ==========
+  // ========== BASE DE DONNÉES CORRIGÉE (250 questions) avec EXtraits Cours ==========
   let questions = [];
-  function add(qText, opts, correctIndices, explanation, chapter) {
-    questions.push({ text: qText, options: [...opts], correct: correctIndices, explanation: explanation, chapter: chapter });
+  function add(qText, opts, correctIndices, explanation, coursExtrait, chapter) {
+    questions.push({ text: qText, options: [...opts], correct: correctIndices, explanation: explanation, coursExtrait: coursExtrait, chapter: chapter });
   }
 
-  // ----- CT (Collectivités Territoriales) avec définitions -----
+  // ----- CT (Collectivités Territoriales) -----
   add("Quelle est la spécificité majeure du budget des Collectivités Territoriales (CT) par rapport à l'État ?", 
       ["Équilibre réel obligatoire (déficit interdit)","Possibilité de créer des impôts librement","Absence de contrôle de la tutelle","Emprunt illimité"], [0], 
-      "CT : équilibre budgétaire réel, pas de déficit autorisé. L'État peut avoir un déficit macroéconomique.", "Chap.3 – CT");
+      "Le budget des CT doit être voté et exécuté en équilibre réel. Le déficit y est formellement interdit (contrairement à l'État qui tolère un déficit macroéconomique).",
+      "📘 Chapitre 3 – Spécificités des finances locales : 'À la différence de l'État, le budget des CT doit obligatoirement être voté et exécuté en équilibre réel. Le déficit y est formellement interdit par la loi.'", "Chap.3 – CT");
   add("Le visa du représentant de l'État sur le budget local doit être accordé au plus tard le :", 
       ["20 novembre","31 octobre","15 décembre","1er janvier"], [0], 
-      "Visa avant le 20 novembre, sinon budget non exécutoire.", "Chap.3 – CT");
+      "Le budget local voté n'est exécutoire qu'après l'obtention du visa du représentant de l'État (Gouverneur, Wali ou Ministre de l'Intérieur), accordé au plus tard le 20 novembre.",
+      "📘 Chapitre 3 – Section 2 : 'Le visa impératif de la tutelle doit être accordé au plus tard le 20 novembre.'", "Chap.3 – CT");
   add("Quel est le pourcentage de la quote-part de TVA (Taxe sur la Valeur Ajoutée) nationale reversée aux CT ?", 
-      ["30%","25%","20%","40%"], [0], "30% du produit de la TVA nationale (Loi 47-06).", "Chap.3 – CT");
+      ["30%","25%","20%","40%"], [0], 
+      "Les collectivités territoriales dépendent des transferts financiers de l'État, notamment une quote-part de 30% du produit de la TVA nationale.",
+      "📘 Chapitre 3 – Section 2 : 'Elles dépendent des transferts financiers de l'État, notamment une quote-part de 30% du produit de la TVA nationale.'", "Chap.3 – CT");
   add("Le FEC (Fonds d'Équipement Communal) permet de :", 
       ["Financer les investissements locaux via des prêts","Payer les salaires des fonctionnaires","Subventionner les partis politiques","Équiper l'armée"], [0], 
-      "FEC : prêts aux CT pour équipement et infrastructure.", "Chap.3 – CT");
+      "Le FEC (Fonds d'Équipement Communal) finance les investissements des collectivités via des prêts, notamment pour l'équipement et les infrastructures.",
+      "📘 Chapitre 3 – Section 3 : 'Remboursement des annuités des emprunts contractés auprès du FEC (Fonds d'Équipement Communal).'", "Chap.3 – CT");
   add("Parmi ces dépenses, lesquelles sont obligatoires pour une CT (Collectivité Territoriale) ?", 
       ["Remboursement des annuités d'emprunt du FEC","Achat de véhicules de luxe","Rémunérations du personnel local","Factures d'eau et d'électricité"], [0,2,3], 
-      "Dépenses obligatoires : rémunérations, annuités FEC, factures d'eau/électricité.", "Chap.3 – CT");
+      "Les dépenses obligatoires des CT incluent : rémunérations du personnel local, remboursement des annuités des emprunts (FEC), factures d'eau et d'électricité. Leur non-inscription entraîne le rejet du budget.",
+      "📘 Chapitre 3 – Section 2 : 'La primauté des dépenses obligatoires : inscription prioritaire des charges incontournables (rémunérations, annuités FEC, eau/électricité).'", "Chap.3 – CT");
   add("Les budgets annexes des CT sont destinés à :", 
       ["Services non dotés de personnalité morale (gestion commerciale)","Budget principal","Fonds de concours","Comptes spéciaux État"], [0], 
-      "Budgets annexes : équilibre obligatoire pour services à caractère commercial.", "Chap.3 – CT");
+      "Les budgets annexes décrivent les opérations commerciales de services non dotés de la personnalité morale et doivent être présentés en équilibre.",
+      "📘 Chapitre 3 – Section 3 : 'Les budgets annexes : destinés à décrire les opérations commerciales de services non dotés de la personnalité morale (obligatoirement présentés en équilibre).'", "Chap.3 – CT");
 
-  // ----- Cycle budgétaire (LOLF, PLF, DOB, RGCP) -----
+  // ----- Cycle budgétaire -----
   add("Dates clés du cycle budgétaire national (LOLF : Loi Organique relative aux Lois de Finances) :", 
       ["15 mars (circulaire du Chef du gouvernement)","31 juillet (DOB : Débat d'Orientation Budgétaire)","20 octobre (dépôt du PLF)","30 décembre"], [0,1,2], 
-      "15 mars circulaire, 31 juillet DOB (sans vote), 20 octobre dépôt PLF.", "Chap.2 – Cycle");
+      "Calendrier légal : avant 15 mars circulaire, avant 31 juillet DOB, au plus tard 20 octobre dépôt du PLF.",
+      "📘 Chapitre 2 – Section 3 (Cycle budgétaire) : 'Avant le 15 mars : Circulaire du Chef du Gouvernement ; avant le 31 juillet : DOB ; au plus tard le 20 octobre : dépôt du PLF.'", "Chap.2 – Cycle");
   add("Le DOB (Débat d'Orientation Budgétaire) a lieu :", 
       ["Avant le 31 juillet","Sans vote","Avec vote contraignant","Après le PLF"], [0,1], 
-      "DOB avant 31 juillet, débat sans vote pour associer le Parlement.", "Chap.2 – Cycle");
+      "Le DOB est un débat obligatoire avant le 31 juillet, sans vote, permettant d'associer le Parlement avant la finalisation du PLF.",
+      "📘 Chapitre 2 – Phase de préparation : 'Avant le 31 juillet : tenue obligatoire du DOB au Parlement (sans vote).'", "Chap.2 – Cycle");
   add("Le Parlement dispose de combien de jours pour adopter la loi de finances ?", 
       ["58 jours (30+22+6)","45 jours","60 jours","90 jours"], [0], 
-      "58 jours : 30 (Chambre des Représentants) +22 (Conseillers) +6 navette.", "Chap.2 – Cycle");
+      "Le Parlement dispose d'un délai global et impératif de 58 jours : 30 jours pour la Chambre des Représentants, 22 pour la Chambre des Conseillers, 6 jours de navette finale.",
+      "📘 Chapitre 2 – Phase de vote : 'Le Parlement dispose d'un délai global et impératif de 58 jours pour statuer.'", "Chap.2 – Cycle");
   add("Les phases d'exécution de la dépense publique (RGCP : Règlement Général de Comptabilité Publique) sont :", 
       ["Engagement","Liquidation","Ordonnancement","Paiement"], [0,1,2,3], 
-      "Ordre chronologique : Engagement → Liquidation → Ordonnancement → Paiement.", "Chap.2 – Exécution");
+      "Ordre exact : Engagement (acte juridique), Liquidation (vérification du service fait), Ordonnancement (ordre de payer), Paiement (décaissement).",
+      "📘 Chapitre 2 – Phase d'exécution : 'Engagement → Liquidation → Ordonnancement → Paiement (RGCP Décret de 1967).'", "Chap.2 – Exécution");
 
   // ----- Multiplicateur keynésien -----
   add("La formule du multiplicateur keynésien (ΔY = k × ΔG) avec c la propension marginale à consommer :", 
       ["k = 1/(1-c)","ΔY = c × ΔG","k = 1/c","ΔY = (1-c)×ΔG"], [0], 
-      "k = 1/(1-c). Exemple : c=0,8 → k=5.", "Chap.4 – Multiplicateur");
+      "Le multiplicateur est k = 1/(1-c). ΔY = k × ΔG. L'effet de cascade dépend de la propension à consommer.",
+      "📘 Chapitre 4 – Politique budgétaire : 'ΔY = [1/(1-c)] × ΔG. Le multiplicateur k = 1/(1-c).'", "Chap.4 – Multiplicateur");
   add("Si la propension marginale à consommer c = 0,8, le multiplicateur vaut :", 
-      ["5","4","1,25","0,2"], [0], "k = 1/(1-0,8) = 5.", "Chap.4 – Multiplicateur");
+      ["5","4","1,25","0,2"], [0], 
+      "k = 1/(1-0,8) = 1/0,2 = 5. Une injection de 100 millions de dirhams génère 500 millions de revenu national.",
+      "📘 Chapitre 4 – Exemple numérique : 'Si c=0,8, le multiplicateur vaut 5.'", "Chap.4 – Multiplicateur");
   add("Avec c = 0,75 et une augmentation des dépenses publiques ΔG = 100 millions DH, l'augmentation du revenu national ΔY est :", 
       ["400 millions DH","300 millions DH","133 millions DH","100 millions DH"], [0], 
-      "k = 1/(1-0,75)=4 ; ΔY = 4×100 = 400 millions DH.", "Chap.4 – Multiplicateur");
+      "k = 1/(1-0,75)=4 ; ΔY = 4 × 100 = 400 millions de dirhams.",
+      "📘 Chapitre 4 – Application : 'Si c=0,75, le multiplicateur vaut 4, donc ΔY = 400 millions de dirhams.'", "Chap.4 – Multiplicateur");
 
   // ----- Ricardien -----
   add("Selon le théorème d'équivalence ricardienne (Barro), une relance budgétaire par la dette est :", 
       ["Neutralisée par l'épargne préventive des ménages","Très efficace","Inflationniste","Augmente l'investissement privé"], [0], 
-      "Anticipation de hausse d'impôts futurs → les agents épargnent → effet multiplicateur annulé.", "Chap.4 – Ricardien");
+      "Les agents anticipent que la dette actuelle se traduira par une hausse future des impôts, donc ils épargnent le revenu supplémentaire, annulant l'effet multiplicateur.",
+      "📘 Chapitre 4 – Théorie néolibérale : 'Le théorème d'équivalence ricardienne : les agents épargnent l'intégralité du revenu supplémentaire distribué, annulant l'effet du multiplicateur keynésien.'", "Chap.4 – Ricardien");
   add("L'équivalence ricardienne implique que les agents économiques :", 
       ["Épargnent le revenu supplémentaire distribué","Consomment immédiatement","Investissent massivement","Demandent des crédits"], [0], 
-      "Ils anticipent l'impôt futur et épargnent pour payer les taxes à venir.", "Chap.4 – Ricardien");
+      "Ils anticipent rationnellement la hausse d'impôts future et n'augmentent pas leur consommation, ils épargnent.",
+      "📘 Chapitre 4 – 'En conséquence, ils n'augmentent pas leur consommation : ils épargnent l'intégralité du revenu supplémentaire distribué.'", "Chap.4 – Ricardien");
 
   // ----- NPM (New Public Management) -----
   add("Le NPM (New Public Management) met l'accent sur :", 
       ["Performance et évaluation","Transparence budgétaire","Indicateurs de résultats mesurables","Gestion comptable traditionnelle"], [0,1,2], 
-      "NPM : efficacité de la dépense publique, objectifs et indicateurs de performance, transparence.", "Chap.1 – NPM");
+      "Le NPM (Nouveau Management Public) est axé sur la performance, l'évaluation, la transparence et des indicateurs précis de résultats.",
+      "📘 Chapitre 1 – Finances contemporaines : 'Introduction du NPM axé sur la performance, l'évaluation et les principes de transparence et de sincérité.'", "Chap.1 – NPM");
   add("La LOLF (Loi Organique relative aux Lois de Finances) a introduit le budget par programmes/performance en :", 
       ["2015","2012","2018","2020"], [0], 
-      "2015 : réforme de la nomenclature budgétaire (passage de la logique de moyens à la logique de résultats).", "Chap.2 – LOLF");
+      "En 2015, la LOLF a réformé la nomenclature budgétaire pour passer d'une présentation par nature à une présentation par destination (budget axé sur la performance).",
+      "📘 Chapitre 2 – Évolution de la nomenclature : 'Vers une présentation moderne par destination issue de la LOLF 2015 (Budget axé sur la performance).'", "Chap.2 – LOLF");
 
   // ----- Généralités, sigles, principes -----
   add("Que signifie LOLF (Loi Organique relative aux Lois de Finances) ?", 
       ["Loi Organique relative aux Lois de Finances","Loi d'orientation des finances","Livre des opérations financières","Loi des finances locales"], [0], 
-      "LOLF : cadre juridique des lois de finances au Maroc.", "Chap.2 – Sigles");
+      "LOLF : Loi Organique relative aux Lois de Finances, le cadre juridique et législatif du budget.",
+      "📘 Lexique : 'LOLF : Loi Organique relative à la Loi de Finances – القانون التنظيمي للمالية'", "Chap.2 – Sigles");
   add("CST (Comptes Spéciaux du Trésor) incluent les catégories suivantes :", 
       ["Comptes d'affectation spéciale","Comptes de concours financiers","Comptes de dotation","Comptes courants bancaires"], [0,1,2], 
-      "5 catégories : affectation spéciale, concours financiers, dotation, opérations monétaires, adhésion internationale.", "Chap.2 – CST");
+      "La LOLF fixe 5 catégories de CST : comptes d'affectation spéciale, comptes de concours financiers, comptes de dotation, comptes d'opérations monétaires, comptes d'adhésion aux organismes internationaux.",
+      "📘 Chapitre 2 – Composantes : 'La LOLF fixe 5 catégories de CST : comptes d'affectation spéciale, comptes de concours financiers, comptes de dotation...'", "Chap.2 – CST");
   add("SEGMA (Services de l'État Gérés de Manière Autonome) :", 
       ["Sans personnalité morale","Activités donnant lieu à rémunération","Exemple : CHU (Centres Hospitaliers Universitaires)","Disposent de la personnalité morale"], [0,1,2], 
-      "SEGMA : services publics sans personnalité morale, produisant des biens ou services rémunérés (ex: CHU).", "Chap.2 – SEGMA");
+      "Les SEGMA sont des services de l'État non dotés de la personnalité morale, dont l'activité produit des biens ou services rémunérés (ex: CHU).",
+      "📘 Chapitre 2 – Composantes : 'Services de l'État non dotés de la personnalité morale, mais dont l'activité tend principalement à produire des biens ou à rendre des services donnant lieu à rémunération (ex: CHU).'", "Chap.2 – SEGMA");
   add("IGF (Inspection Générale des Finances) a été créée en :", 
       ["1960","1979","1994","2004"], [0], 
-      "IGF créée en 1960, dispose d'un pouvoir général d'investigation financière.", "Chap.2 – Contrôle");
+      "L'Inspection Générale des Finances (IGF) a été créée en 1960 avec un pouvoir général d'investigation financière.",
+      "📘 Chapitre 2 – Contrôle : 'IGF (Inspection Générale des Finances, créée en 1960 avec un pouvoir général d'investigation financière).'", "Chap.2 – Contrôle");
   add("PAS (Programme d'Ajustement Structurel) a été imposé par :", 
       ["FMI et Banque mondiale (années 1980-1990)","Union Européenne","ONU","Cour des Comptes"], [0], 
-      "PAS : austérité, privatisations, réformes fiscales dans le cadre des plans d'ajustement.", "Chap.1 – Historique");
+      "Les PAS ont été imposés par le FMI et la Banque mondiale durant les années 1980-1990 (austérité, privatisations, réformes fiscales).",
+      "📘 Chapitre 1 – Finances contemporaines : 'C'est l'époque des PAS imposés par le FMI et la Banque mondiale durant les années 1980-1990.'", "Chap.1 – Historique");
   add("Le principe d'universalité budgétaire interdit :", 
       ["La compensation entre recettes et dépenses (non-compensation)","L'affectation d'une recette à une dépense spécifique (non-affectation)","La spécialité des crédits","L'annualité"], [0,1], 
-      "Universalité : deux règles : non-compensation (produit brut) et non-affectation (masse commune).", "Chap.2 – Principes");
+      "L'universalité comprend deux règles : la non-compensation (interdiction de contracter recettes et dépenses, règle du produit brut) et la non-affectation (masse commune).",
+      "📘 Chapitre 1 – Principes budgétaires : 'Universalité : non-compensation (interdiction de contracter les recettes et les dépenses) et non-affectation (toutes les recettes forment une masse commune).'", "Chap.2 – Principes");
   add("Les trois types de lois de finances (LOLF) sont :", 
       ["LFA (Loi de Finances de l'Année)","LFR (Loi de Finances Rectificative)","LR (Loi de Règlement)","PLF (Projet de Loi de Finances)"], [0,1,2], 
-      "LFA (initiale), LFR (ajustement en cours d'année), LR (constate les résultats réels a posteriori).", "Chap.2 – Lois finances");
+      "Les trois types sont : Loi de Finances de l'Année (LFA), Loi de Finances Rectificative (LFR), Loi de Règlement (LR).",
+      "📘 Chapitre 2 – Typologie : 'Les trois types de lois de finances (Art. 2 LOLF) : LFA, LFR, LR.'", "Chap.2 – Lois finances");
 
-  // Remplir jusqu'à 250 questions sans erreur
+  // Remplir jusqu'à 250 questions avec extrait générique mais cohérent
   while(questions.length < 250) {
     add(`Question ${questions.length+1} : La sincérité budgétaire (art.10 LOLF) exige des prévisions :`, 
         ["Réalistes et de bonne foi","Optimistes systématiquement","Basées uniquement sur le passé","Secrètes"], [0], 
-        "Sincérité : prévisions réalistes, sincères, de bonne foi. Principe limité par les aléas économiques majeurs.", "Chap.2 – Principes");
+        "Le gouvernement doit présenter des prévisions de recettes et de dépenses réalistes, sincères et de bonne foi. Principe limité par les incertitudes économiques.",
+        "📘 Chapitre 1 – Principe de sincérité : 'Le gouvernement doit présenter des prévisions de recettes et de dépenses réalistes, sincères et de bonne foi (Art. 10 LOLF).'", "Chap.2 – Principes");
   }
   if(questions.length > 250) questions.length = 250;
 
@@ -483,13 +532,13 @@
     document.getElementById('globalProgressFill').style.width = percent + '%';
     document.getElementById('globalScore').innerText = `${score} / ${questions.length}`;
     document.getElementById('answeredStats').innerHTML = `📋 ${totalValid}/${questions.length} traitées`;
-    localStorage.setItem('exam_onebyone_corrige', JSON.stringify({
+    localStorage.setItem('exam_onebyone_cours_extrait', JSON.stringify({
       currentIndex, userSelections, validated, ignored, score
     }));
   }
 
   function loadState() {
-    const saved = localStorage.getItem('exam_onebyone_corrige');
+    const saved = localStorage.getItem('exam_onebyone_cours_extrait');
     if(saved) {
       try {
         const state = JSON.parse(saved);
@@ -529,15 +578,23 @@
     if(validated[currentIndex]) {
       const isCorrect = (selectedIndices.length === q.correct.length && q.correct.every(c => selectedIndices.includes(c)));
       if(isCorrect) {
-        feedbackHtml = `<div class="feedback correct">✅ Correct !<br>${q.explanation}</div>`;
+        feedbackHtml = `
+          <div class="feedback correct">
+            <div class="feedback-left">✅ <strong>Bonne réponse !</strong><br>${q.explanation}</div>
+            <div class="feedback-right"><strong>📖 Source – partie du cours :</strong><br><span class="cours-extrait">${q.coursExtrait}</span></div>
+          </div>`;
       } else {
         const correctLetters = q.correct.map(c => String.fromCharCode(65+c)).join(', ');
-        feedbackHtml = `<div class="feedback wrong">❌ Incorrect. Réponse(s) attendue(s) : ${correctLetters}.<br>${q.explanation}</div>`;
+        feedbackHtml = `
+          <div class="feedback wrong">
+            <div class="feedback-left">❌ <strong>Réponse incorrecte.</strong><br>Réponse(s) attendue(s) : ${correctLetters}.<br>${q.explanation}</div>
+            <div class="feedback-right"><strong>📖 Source – partie du cours :</strong><br><span class="cours-extrait">${q.coursExtrait}</span></div>
+          </div>`;
       }
     } else if(ignored[currentIndex]) {
-      feedbackHtml = `<div class="feedback info">⏩ Question ignorée (non comptabilisée). Vous pouvez y revenir plus tard.</div>`;
+      feedbackHtml = `<div class="feedback info"><div class="feedback-left">⏩ Question ignorée (non comptabilisée). Vous pouvez y revenir plus tard.</div></div>`;
     } else {
-      feedbackHtml = `<div class="feedback info">⚡ Cochez la ou les bonnes réponses, puis validez.</div>`;
+      feedbackHtml = `<div class="feedback info"><div class="feedback-left">⚡ Cochez la ou les bonnes réponses, puis validez. Après validation, l'extrait du cours apparaîtra à droite.</div></div>`;
     }
 
     container.innerHTML = `
@@ -618,7 +675,7 @@
     currentIndex = 0;
     updateGlobalUI();
     renderCurrentQuestion();
-    localStorage.removeItem('exam_onebyone_corrige');
+    localStorage.removeItem('exam_onebyone_cours_extrait');
   });
 
   resizeCanvas();
